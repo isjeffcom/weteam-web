@@ -8,6 +8,8 @@ Vue.use(ElementUI);
 
 import router from './router.js'
 
+Vue.prototype.$qs = require('querystring')
+
 Vue.config.productionTip = false
 
 new Vue({
