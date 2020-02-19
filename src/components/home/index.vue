@@ -10,6 +10,10 @@
         <div id="onebutton">
             <el-button type="primary" v-on:click="go">主要按钮</el-button>
         </div>
+
+        <div id="customButton">
+            <span>开始</span>
+        </div>
         
         <router-link to="signup">
             <button>to welcome</button>
@@ -47,6 +51,26 @@
 #onebutton{
     margin-left: 100px; 
     
+}
+
+#customButton{
+    width: 300px;
+    height: 50px;
+    background: rgba(0,0,255,0.6);
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 3px 6px rgba(0,0,255,0.06), 0 3px 6px rgba(0,0,255,0.13);
+    transition: all 0.42s cubic-bezier(.25,.8,.25,1);
+}
+
+#customButton:hover{
+    background: rgba(0,0,255,1);
+    box-shadow: 0 3px 6px rgba(0,0,255,0.16), 0 3px 6px rgba(0,0,255,0.23);
+}
+
+#customButton:active{
+    background: rgb(255, 0, 0);
 }
 
 </style>
