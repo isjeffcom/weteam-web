@@ -1,8 +1,8 @@
 const axios = require('axios')
 const qs = require('qs')
 
-const base_url = "http://localhost"
-
+const base_url = "https://playground.eca.ed.ac.uk/~s1929291/fatfree/FFF-SimpleExample"
+//const base_url = "https://uoedcal.isjeff.com"
 function hello(txt, callback){
     setTimeout(()=>{
         callback(txt)

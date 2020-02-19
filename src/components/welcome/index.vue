@@ -49,6 +49,14 @@
 
         </div>
         
+
+
+
+        <el-button type="info" plain>start</el-button>
+
+
+     <el-input v-model="input" placeholder="hello"></el-input>
+   
     </div>
 </template>
 
@@ -68,7 +76,8 @@ export default {
     data(){
         return{
             nihao: "Welcome page",
-            nav: "login"
+            nav: "login",
+            input: ''
         }
     },
 
