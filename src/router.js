@@ -11,7 +11,6 @@ import ooo from './components/liu'
 
 
 export default new VueRouter({
-  mode: 'history',
   routes: [
       { path:'/', name:'Home', redirect: '/home' },
       { path: '/home', name: 'home', component: home },

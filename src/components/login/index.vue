@@ -1,35 +1,20 @@
 <template>
     <div id="login">
-
-        <div v-for="item in list" :key="item.name" class="single">
-            Name: <span>{{item.name}}</span> <br>
-            Des: <span>{{item.des}}</span>
+        <div class="mainBody">
+            <p>Login</p>
+            <input v-model="email" type="text" size="10" maxlength="30" value="Email">
+            <br>
+            <input v-model="password" type="password" size="10" maxlength="30" value="Password">
+            <br>
+            <button v-on:click="loginLocal"> LOGIN OR CREATE</button>
         </div>
 
+        <div class="bottom">
+        </div>
+
+        
+
         <div id="login-inner">
-
-            <div id="login-t-image">
-
-            </div>
-
-            <div id="login-input-cont">
-
-                <div id="login-input-email">
-
-                    Email: <input type="text">
-
-                </div>
-
-                <div id="login-input-psw">
-                    Password: <input type="password">
-                </div>
-            </div>
-            
-            <div id="login-input-submit">
-                <router-link to="home">
-                    <button>SUBMIT</button>
-                </router-link>
-            </div>
 
             <button v-on:click="updateMenu">Update Menu</button>
             <button v-on:click="hello">callback</button>
@@ -57,12 +42,14 @@ export default {
         return{
             api: "/cafe/update/index.php",
             api_all: "/cafe/",
+            email: "",
+            password: "",
             list: []
         }
     },
 
     created(){
-        this.getData()
+        //this.getData()
     },
 
     methods:{
@@ -70,6 +57,34 @@ export default {
             request.hello("anytext", (res)=>{
                 alert()
                 console.log(res)
+            })
+        },
+
+        loginLocal(){
+            console.log(this.email + this.password)
+            if(this.email.length < 0 && this.password.length < 0){
+                console.log("empty")
+                return false
+            }
+            const postReady = {
+                u: this.email,
+                p: this.password,
+                t: "tweb",
+                r: Math.floor(1000+Math.random()*9000),
+                platform: navigator.platform,
+                language: navigator.language
+            }
+
+            request.post('/login', postReady, (res)=>{
+                console.log(res)
+                if(res.data == "t"){
+                    console.log("success")
+                    this.$router.push('home')
+                } else {
+                    this.$alert('Wrong student number or password, please try again', 'Try again', {
+                        confirmButtonText: 'OK'
+                    });
+                }
             })
         },
 
