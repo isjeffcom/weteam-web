@@ -11,6 +11,9 @@ import join from './components/join'
 import ooo from './components/liu'
 import logina from './components/logina'
 
+import group from './components/group'
+
+
 export default new VueRouter({
   routes: [
       { path:'/', name:'Home', redirect: '/home' },
