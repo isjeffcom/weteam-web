@@ -9,7 +9,7 @@ import welcome from './components/welcome'
 import signup from './components/signup'
 import join from './components/join'
 import ooo from './components/liu'
-
+import logina from './components/logina'
 
 export default new VueRouter({
   routes: [
@@ -19,6 +19,7 @@ export default new VueRouter({
       { path: '/welcome', name: 'welcome', component: welcome },
       { path: '/signup', name: 'signup', component: signup },
       { path: '/join', name: 'join', component: join },
-      { path: '/liu', name: 'liu', component: ooo }
+      { path: '/liu', name: 'liu', component: ooo },
+      { path: '/logina', name: 'logina', component: logina },
     ]
 })

@@ -13,7 +13,7 @@
            
             <div class="join-icon">
 
-                <img src="../../assets/team.png" alt="team icon">
+                <img class="" src="../../assets/team.png" alt="team icon">
             </div>        
             
             <div class="cont-list-sin" >
