@@ -32,7 +32,7 @@ function post(api, data, callback){
 
 
 // General get data
-export function get (api, param, callback) {
+function get (api, param, callback) {
     
   axios.get(contParam(api, param)).then((response) => {
 
@@ -72,7 +72,7 @@ function contParam (api, param) {
 
   return api
 }
-module.exports ={
+module.exports = {
     hello:hello,
     post: post,
     get: get

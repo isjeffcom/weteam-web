@@ -12,36 +12,36 @@
 
             <div class="cont-inner">
                 <div class="cont-intro">
-                    <span>目前是一个提供给爱丁堡大学学生使用的课程表和团队管理工具。目前处于早期测试阶段。</span>
+                    <span>can help you orginize your schedule with your team by connecting to the calendar account.</span>
                 </div>
 
                 <div class="cont-list-single">
                     <div class="cont-list-s-title">
-                        <span>现有能力</span>
-                    </div>
+                    </div><span>WE WILL DO</span>
 
                     <div class="cont-list-s-content">
                         <span>
-                            - 查看你的课程表 <br>
-                            - 创建团队  <br>
-                            - 分享团队  <br>
-                            - 查看队员课程表 <br>
+                            
+                            - WE CAN DO <br>
+                            - View your own timetable  <br>
+                            - View your teammate’s timetable  <br>
+                            - Create your own team <br>
                         </span>
                     </div>
                 </div>
 
                 <div class="cont-list-single">
                     <div class="cont-list-s-title">
-                        <span>未来能力</span>
+                        <span>WE WILL DO</span>
                     </div>
 
                     <div class="cont-list-s-content">
                         <span>
-                            - 团队看板任务管理 <br>
-                            - 会议计划 <br>
-                            - 公告板 <br>
-                            - 房间预订 <br>
-                            - 支持更多学校 <br>
+                            - Room booking system <br>
+                            - Task management<br>
+                            - Event or meeting planner <br>
+                            - call-board <br> 
+                            - Support more schools  <br>
                         </span>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
         <el-button type="info" plain>start</el-button>
 
 
-     <el-input v-model="input" placeholder="hello"></el-input>
+     
    
     </div>
 </template>

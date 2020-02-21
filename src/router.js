@@ -7,6 +7,7 @@ import home from './components/home'
 import login from './components/login'
 import welcome from './components/welcome'
 import signup from './components/signup'
+import join from './components/join'
 import ooo from './components/liu'
 
 

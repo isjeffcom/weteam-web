@@ -18,9 +18,13 @@
 
             <button v-on:click="updateMenu">Update Menu</button>
             <button v-on:click="hello">callback</button>
+
+           
             
 
         </div>
+
+   
 
     </div>
 </template>
