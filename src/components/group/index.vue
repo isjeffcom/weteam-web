@@ -20,7 +20,7 @@
         <div id="login-inner">
 
             <button v-on:click="updateMenu">Update Menu</button>
-            <button v-on:click="hello">callback</button>
+            <button v-on:click="getTask">Get Task</button>
             
 
         </div>
@@ -57,7 +57,7 @@ export default {
 
     methods:{
         getTask(){
-            postReady={
+            const postReady = {
                 name: "id",
                 val: 10
             }
