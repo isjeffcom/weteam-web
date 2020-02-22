@@ -13,7 +13,7 @@ import logina from './components/logina'
 import created from'./components/created'
 
 import group from './components/group'
-
+import newGroup from './components/newGroup'
 
 
 export default new VueRouter({
@@ -27,5 +27,7 @@ export default new VueRouter({
       { path: '/liu', name: 'liu', component: ooo },
       { path: '/logina', name: 'logina', component: logina },
       { path: '/created', name: 'created', component: created},
+      { path: '/group', name: 'group', component: group },
+      { path: '/newGroup', name: 'newGroup', component: newGroup },
     ]
 })

@@ -1,14 +1,15 @@
 <template>
     <div id="group">
         <div class="mainBody">
+            <p>ID: {{myid}}</p>
             <p>My Group</p>
 
         </div>
         
         <div class="group-list">
-            <div class="group-list-single" v-for="item in list" :key="item.name">
-                <span>{{item.gname}}</span><br>
-                <span>{{item.memCount}} members</span>
+            <div class="group-list-single" v-for="(item, index) in list" :key="index">
+                <span>{{item.name}}</span><br>
+                <span>{{ item.members.split(",").length}} members</span>
             </div>
         </div>
 
@@ -43,80 +44,30 @@ export default {
 
     data(){
         return{
-            api: "/cafe/update/index.php",
-            api_all: "/cafe/",
-            email: "",
-            password: "",
-            list: []
+            list: [],
+            myid: 11
         }
     },
 
+    // Fire When Page Init
     created(){
+        this.getTask(this.myid)
         //this.getData()
     },
 
     methods:{
-        getTask(){
-            const postReady = {
-                name: "id",
-                val: 10
-            }
+        getTask(userId){
+            const postReady = [
+                {
+                    name: "id",
+                    val: userId
+                }
+            ]
             request.get('/group', postReady, (res)=>{
-                this.list = res.data
+                this.list = res.data.data
                 console.log(res)
             })
         },
-        loginLocal(){
-            console.log(this.email + this.password)
-            if(this.email.length < 0 && this.password.length < 0){
-                console.log("empty")
-                return false
-            }
-            const postReady = {
-                u: this.email,
-                p: this.password,
-                t: "tweb",
-                r: Math.floor(1000+Math.random()*9000),
-                platform: navigator.platform,
-                language: navigator.language
-            }
-
-            request.post('/login', postReady, (res)=>{
-                console.log(res)
-                if(res.data == "t"){
-                    console.log("success")
-                    this.$router.push('home')
-                } else {
-                    this.$alert('Wrong student number or password, please try again', 'Try again', {
-                        confirmButtonText: 'OK'
-                    });
-                }
-            })
-        },
-
-        updateMenu(){
-            const postReady = {
-                id: 1,
-                name: "hello",
-                des: "huawei"
-            }
-            request.post(this.api, postReady, (res)=>{
-                console.log(res)
-                if(res.status){
-                    alert("success")
-                } else {
-                    alert("fail:" + res.err)
-                }
-            })
-        },
-
-        getData(){
-            request.get(this.api_all, {}, (res)=>{
-                this.list = res.data
-                console.log(res)
-            })
-            
-        }
     }
 }
 </script>
