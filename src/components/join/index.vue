@@ -13,7 +13,7 @@
            
             <div class="join-icon">
 
-                <img class="" src="../../assets/team.png" alt="team icon">
+                <img src="../../assets/team.png" alt="team icon">
             </div>        
             
             <div class="cont-list-sin" >
@@ -170,6 +170,7 @@ export default {
         border-radius: 1000px;
         overflow: hidden;
     }
+    
 
     .cont-list-s-img img{
         width: 70%;
