@@ -33,6 +33,10 @@ function post(api, data, callback){
 
 // General get data
 function get (api, param, callback) {
+
+    api = base_url + api
+    //alert(param)
+    //alert(contParam(api, param))
     
   axios.get(contParam(api, param)).then((response) => {
 
@@ -53,11 +57,9 @@ function get (api, param, callback) {
 
 // Construct url with paramaters
 function contParam (api, param) {
-    
   // Assumble get url paramaters
   if(param.length > 0){
       api = api + "?"
-      
       
       for(var i=0;i<param.length;i++){
 
