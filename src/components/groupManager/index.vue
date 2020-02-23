@@ -56,7 +56,7 @@ export default {
     created(){
         this.gid = this.$route.params.gid
         //console.log(this.gid)
-        this.groupName = this.$route.params.name
+        //this.groupName = this.$route.params.name
         //this.liststring = this.$route.params.members
         //var listStr = this.$route.params.members
 
