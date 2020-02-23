@@ -6,7 +6,7 @@
         </div-->
         
         <div class="group-list">
-            <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toGroupAdmin(item.gid, item.name)">
+            <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toGroupAdmin(item.id, item.name)">
                 <span>{{item.name}}</span><br>
                 <span>{{ item.members.split(",").length}} members</span>
             </div>
@@ -66,7 +66,8 @@ export default {
             ]
             request.get('/group', postReady, (res)=>{
                 this.list = res.data.data
-                console.log(res)
+                //console.log(this.list)
+                //console.log(res)
             })
         },
 
