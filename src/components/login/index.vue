@@ -65,7 +65,6 @@ export default {
         },
 
         loginLocal(){
-            console.log(this.email + this.password)
             if(this.email.length < 0 && this.password.length < 0){
                 console.log("empty")
                 return false

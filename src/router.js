@@ -16,6 +16,7 @@ import group from './components/group'
 import newGroup from './components/newGroup'
 
 
+
 export default new VueRouter({
   routes: [
       { path:'/', name:'Home', redirect: '/home' },

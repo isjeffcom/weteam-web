@@ -54,4 +54,7 @@ export default {
 #titlebar-logo img{
     width: 120px;
 }
+#titlebar-left{
+    margin-top: 6px;
+}
 </style>
