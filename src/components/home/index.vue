@@ -64,6 +64,8 @@ export default {
             
             var evtData = this.getEvt(date)
 
+            console.log(evtData)
+
             if (evtData.status){
                 this.currentEvtArr = evtData.data
             }
@@ -115,6 +117,8 @@ export default {
 
                     }
                 })*/
+
+                return { status: false, count: 0, data: "no timetable data"  }
             }
         },
 

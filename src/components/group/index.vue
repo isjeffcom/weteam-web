@@ -12,25 +12,13 @@
             </div>
         </div>
 
-        <div class="bottom">
-        </div>
-
-        
-
-        <div id="login-inner">
-
-            <!--button v-on:click="updateMenu">Update Menu</button-->
-            <button v-on:click="getTask">Get Task</button>
-            
-
-        </div>
-
     </div>
 </template>
 
 <script>
 
 const request = require('../../request')
+const ls = require('local-storage')
 
 export default {
     name: "login",
@@ -44,7 +32,7 @@ export default {
     data(){
         return{
             list: [
-                {
+                /*{
                     gid: 33,
                     name: "lalala",
                     members: "10,14"
@@ -53,7 +41,7 @@ export default {
                     gid: 16,
                     name: "Group name",
                     members: "15,14,16"
-                },
+                },*/
             ],
             myid: 11
         }
@@ -63,10 +51,13 @@ export default {
     created(){
         //this.getTask(this.myid)
         //this.getData()
+        this.getList(ls.get("login_uuid"))
+
     },
 
     methods:{
-        getTask(userId){
+        getList(userId){
+
             const postReady = [
                 {
                     name: "id",
