@@ -55,25 +55,34 @@ export default {
     // Fire When Page Init
     created(){
         this.gid = this.$route.params.gid
-        this.groupName = this.$route.params.name
+        //this.groupName = this.$route.params.name
         //this.liststring = this.$route.params.members
-        var listStr = this.$route.params.members
-        this.list = listStr.split(",")
+        //var listStr = this.$route.params.members
+
+        // If cannot be splited, than...
+        //this.list = listStr.indexOf(",") != -1 ? listStr.split(",") : listStr
+        
         this.getName()
         //console.log(this.groupName)
         //this.judgeState()
     },
 
+    activated(){
+        this.getName()
+    },
+
     methods:{
         getName(){
+            //console.log("a")
             //console.log(this.list)
             const postReady = [
                 {
-                    name: "memberId",
-                    val: this.list
+                    name: "groupId",
+                    val: this.gid
                 }
             ]
             request.get('/groupManagerGetName', postReady, (res)=>{
+                console.log(res)
                 this.list = res.data
             })
         },
@@ -90,6 +99,7 @@ export default {
         },
 
         deleteMb(nameId){
+            var that = this
             //console.log(nameId)
             const postReady = 
                 {
@@ -99,6 +109,7 @@ export default {
                 }
             request.post('/groupManagerDelete', postReady, (res)=>{
                 console.log(res)
+                that.getName()
             })
         },
 

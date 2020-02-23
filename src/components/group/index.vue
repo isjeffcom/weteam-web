@@ -7,7 +7,7 @@
         </div>
         
         <div class="group-list">
-            <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toGroupAdmin(item.id, item.name, item.members)">
+            <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toGroupAdmin(item.gid, item.name)">
                 <span>{{item.name}}</span><br>
                 <span>{{ item.members.split(",").length}} members</span>
             </div>
@@ -46,12 +46,12 @@ export default {
         return{
             list: [
                 {
-                    id: 33,
+                    gid: 33,
                     name: "lalala",
                     members: "10,14"
                 },
                 {
-                    id: 16,
+                    gid: 16,
                     name: "Group name",
                     members: "15,14,16"
                 },
@@ -80,8 +80,8 @@ export default {
             })
         },
 
-        toGroupAdmin(gid, name, members){
-            this.$router.push({name: "groupManager", params: { gid: gid, name: name, members: members}})
+        toGroupAdmin(gid, name){
+            this.$router.push({name: "groupManager", params: { gid: gid, name: name}})
             //console.log(gid)
         }
     }
