@@ -4,7 +4,8 @@
     <titlebar></titlebar>
 
     <div id="main-cont">
-      <div id="main-cont-left">
+      
+      <div id="main-cont-left" v-if="hasSidebar">
         <sidebar :tabs="tabs"></sidebar>
       </div>
 
@@ -32,6 +33,7 @@ export default {
   },
   data(){
     return{
+      hasSidebar: true,
       tabs: [
           {
               icon: "/assets/icons/i_calendar.svg",
@@ -61,6 +63,10 @@ export default {
       
       console.log(that.tabs[data].routerName)
       that.$router.push(that.tabs[data].routerName)
+    })
+
+    EventBus.$on("showSidebar", function(data){
+      that.hasSidebar = data
     })
   }
 }

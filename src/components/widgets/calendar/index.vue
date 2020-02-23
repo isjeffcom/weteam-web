@@ -463,9 +463,8 @@ export default {
 
 
             this.currentSelected = res.day
-            
-            
 
+            this.$emit('day', res);
             //this.triggerEvent('onDayTap', res)
 
             return res
@@ -684,6 +683,7 @@ export default {
 .calendar-week{
   margin-top: 14px;
   width: calc(100%/7);
+  cursor: pointer;
 }
 
 .calendar-slot{

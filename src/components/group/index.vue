@@ -1,10 +1,9 @@
 <template>
     <div id="group">
-        <div class="mainBody">
+        <!--div class="mainBody">
             <p>ID: {{myid}}</p>
             <p>My Group</p>
-
-        </div>
+        </div-->
         
         <div class="group-list">
             <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toGroupAdmin(item.gid, item.name)">

@@ -174,7 +174,7 @@ const timeProcessing = require('../../../support/time')
 export default {
     name: "timetable",
     props:{
-        //events: Array,
+        events: Array,
         hasMems: {
             type: String,
             default: "f",
@@ -216,7 +216,7 @@ export default {
             tt_evt_switch:{
                 opa: 1
             },
-            events: [
+            /*events: [
                 {
                     allDay: false,
                     end: "2020-02-27,13:0:0",
@@ -240,7 +240,7 @@ export default {
                     startTime: "14:0:0"
                 }
             
-            ]
+            ]*/
         }
     },
 
@@ -258,10 +258,7 @@ export default {
                 eevt[i].uname = uinfo.name
             }
 
-
             this.renderEvts(eevt)
-
-        
         }
     },
 
@@ -284,20 +281,22 @@ export default {
 
     methods:{
         renderEvts (data) {
+            
+            if(data){
+                var evts = this.parseEvtsTop(data)
+                evts = timeProcessing.reConstructDataByTimeSlot(evts)
 
-        // Use test data here
-        //var evts = this.parseEvtsTop(testData.ttTestData)
+                this.innerEvts = evts
+                this.ttEvtsDisplay = true
 
-        var evts = this.parseEvtsTop(data)
-        evts = timeProcessing.reConstructDataByTimeSlot(evts)
+                if(data.length == 0){
+                    this.$message('No event for today.');
+                }
 
-        this.innerEvts = evts
-        this.ttEvtsDisplay = true
-        
-        /*setTimeout(()=>{
-            this.startAni()
-        }, 400)*/
-
+            } else {
+                
+                this.ttEvtsDisplay = false
+            }
         },
 
         startAni(){
@@ -597,6 +596,7 @@ export default {
 
 #timetable{
     width: 100%;
+    height: 100%;
 }
 
 .tt-cont{
