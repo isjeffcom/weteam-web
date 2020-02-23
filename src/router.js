@@ -14,6 +14,7 @@ import created from'./components/created'
 
 import group from './components/group'
 import newGroup from './components/newGroup'
+import groupManager from './components/groupManager'
 
 
 
@@ -30,5 +31,6 @@ export default new VueRouter({
       { path: '/created', name: 'created', component: created},
       { path: '/group', name: 'group', component: group },
       { path: '/newGroup', name: 'newGroup', component: newGroup },
+      { path: '/groupManager', name: 'groupManager', component: groupManager },
     ]
 })
