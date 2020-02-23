@@ -31,7 +31,7 @@
 <script>
 
 const request = require('../../request')
-
+const ls = require('local-storage')
 export default {
     name: "login",
     components:{
@@ -44,8 +44,8 @@ export default {
     data(){
         return{
             gid: 0,
-            myid: 14,
-            groupName: "Group",
+            myid: '',
+            groupName: "",
             list:[],
             state: 1,
             liststring:"1,2"
@@ -55,13 +55,14 @@ export default {
     // Fire When Page Init
     created(){
         this.gid = this.$route.params.gid
-        //this.groupName = this.$route.params.name
+        //console.log(this.gid)
+        this.groupName = this.$route.params.name
         //this.liststring = this.$route.params.members
         //var listStr = this.$route.params.members
 
         // If cannot be splited, than...
         //this.list = listStr.indexOf(",") != -1 ? listStr.split(",") : listStr
-        
+        this.myid = ls.get("login_uuid")
         this.getName()
         //console.log(this.groupName)
         //this.judgeState()
@@ -75,6 +76,7 @@ export default {
         getName(){
             //console.log("a")
             //console.log(this.list)
+            //console.log(this.gid)
             const postReady = [
                 {
                     name: "groupId",
