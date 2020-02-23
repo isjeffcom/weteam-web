@@ -25,6 +25,7 @@
 <script>
 
 const request = require('../../request')
+const ls = require('local-storage')
 
 export default {
     name: "login",
@@ -37,25 +38,47 @@ export default {
 
     data(){
         return{
-            myid: 11,
             groupName: ""
         }
     },
 
     // Fire When Page Init
     created(){
+        this.myid = parseInt(ls.get("login_uuid"))
     },
 
     methods:{
         add(){
-            const postReady = 
-                {
+            const gn = this.groupName
+            if(gn.length > 2 && gn.length < 48){
+                const postReady = {
                     id: this.myid,
                     groupName: this.groupName
                 }
-            request.post('/newGroup', postReady, (res)=>{
-                console.log(res)
-            })
+
+                request.post('/newGroup', postReady, (res)=>{
+                    if(res.status){
+                        this.$message({
+                            message: 'Group: ' + gn + ' added',
+                            type: 'success'
+                        })
+
+                        this.$router.push('group')
+
+                    } else {
+                        this.$message({
+                            message: 'Can not add group',
+                            type: 'warning'
+                        })
+                    }
+                })
+            } else {
+                this.$alert('Group name must longer than 2 and shorter than 48', 'Check Group Name', {
+                    confirmButtonText: 'OK',
+                })
+            }
+
+            
         },
     }
 }

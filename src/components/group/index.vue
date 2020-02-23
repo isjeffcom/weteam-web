@@ -1,9 +1,6 @@
 <template>
     <div id="group">
-        <!--div class="mainBody">
-            <p>ID: {{myid}}</p>
-            <p>My Group</p>
-        </div-->
+
         
         <div class="group-list">
             <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toGroupAdmin(item.gid, item.name)">
@@ -86,7 +83,20 @@ export default {
     border-bottom: 1px solid rgba(0,0,0,0.5);
 }
 
+.group-list{
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .group-list-single{
+    background: #FFFFFF;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+    width: 320px;
+    height: 64px;
+    border-radius: 8px;
     margin-bottom: 20px;
 }
 </style>
