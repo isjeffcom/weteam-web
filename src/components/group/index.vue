@@ -7,7 +7,7 @@
         </div>
         
         <div class="group-list">
-            <div class="group-list-single" v-for="(item, index) in list" :key="index">
+            <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toGroupAdmin(item.id, item.name, item.members)">
                 <span>{{item.name}}</span><br>
                 <span>{{ item.members.split(",").length}} members</span>
             </div>
@@ -20,7 +20,7 @@
 
         <div id="login-inner">
 
-            <button v-on:click="updateMenu">Update Menu</button>
+            <!--button v-on:click="updateMenu">Update Menu</button-->
             <button v-on:click="getTask">Get Task</button>
             
 
@@ -44,14 +44,25 @@ export default {
 
     data(){
         return{
-            list: [],
+            list: [
+                {
+                    id: 33,
+                    name: "lalala",
+                    members: "10,14"
+                },
+                {
+                    id: 16,
+                    name: "Group name",
+                    members: "15,14,16"
+                },
+            ],
             myid: 11
         }
     },
 
     // Fire When Page Init
     created(){
-        this.getTask(this.myid)
+        //this.getTask(this.myid)
         //this.getData()
     },
 
@@ -68,6 +79,11 @@ export default {
                 console.log(res)
             })
         },
+
+        toGroupAdmin(gid, name, members){
+            this.$router.push({name: "groupManager", params: { gid: gid, name: name, members: members}})
+            //console.log(gid)
+        }
     }
 }
 </script>
