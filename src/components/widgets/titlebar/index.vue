@@ -47,7 +47,7 @@ export default {
     methods:{
         logout(){
             util.logout()
-            this.$router.push('logina')
+            this.$router.push('login')
         }
     }
 }

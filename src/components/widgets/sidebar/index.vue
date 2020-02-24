@@ -36,8 +36,21 @@ export default {
         }
     },
 
+    mounted(){
+        var that = this
+
+        const now = this.$router.currentRoute.name
+        
+        this.tabs.forEach((el, index) => {
+            if(now == el.routerName){
+                that.current = index
+            }
+        });
+    },
+
     created(){
         //console.log(this.current)
+
     },
     methods:{
 

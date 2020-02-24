@@ -48,14 +48,14 @@
                             </div>
 
                             <!--div class="tt-evts-single-name" v-if="item.child.length < 3">
-                                <span wx:if="{{evt.hide}}">**</span>
-                                <span> {{ cname.setName(evt.name, evt.size.height) }} </span>
-                                <span wx:if="{{evt.hide}}">**</span>
+                                <span v-if="evt.hide">**</span>
+                                <span> {{ setName(evt.name, evt.size.height) }} </span>
+                                <span v-if="evt.hide">**</span>
                             </div-->
 
-                            <!--div class="tt-evts-single-name" v-if="item.child.length >= 3 && evtIdx == 0">
-                                <span>{{ item.child.length }} 个事件</span>
-                            </div-->
+                            <div class="tt-evts-single-name" v-if="item.child.length >= 3 && evtIdx == 0">
+                                <span>{{ item.child.length }} Events</span>
+                            </div>
 
                             <!-- User Avatar -->
                             <div class="tt-evts-single-uimg" v-if="hMems && evt.uimg != null">
@@ -69,21 +69,20 @@
                         </div>
 
                         <!-- IF TOO MANY EVENTS -->
-                        <!--div 
-                        class="tt-evts-single-slot"
-                        bindtap="openDetail"
-                        wx:for="{{ item.child }}" 
-                        wx:for-item="evt" 
-                        wx:for-index="evtIdx" 
-                        wx:key="evtIdx"
-                        data-d="{{ item.child }}"
-                        wx:if="{{ item.child.length >= 3 && evtIdx == 0}}"
-                        style="top: {{ evt.size.top }}px; height: {{ evt.size.height }}px; background: {{ ccolors.getEvtsColor(evt.uuid ? evt.uuid : 0  ) }};"-->
-                        <!-- Events Count Number -->
-                            <!--div class="tt-evts-single-name">
-                                <span>{{ item.child.length }} 个事件</span>
+                        <!--div v-if="item.child.length >= 2 && evtIdx == 0">
+                            <div 
+                            class="tt-evts-single-slot"
+                            v-on:click="openDetail(item.child)"
+                            v-for="(evt, evtIdx) in item.child" 
+                            :key="evtIdx"
+                            :style="'top: ' + evt.size.top + 'px; height:' + evt.size.height + 'px; background:' + getEvtsColor(evt.uuid ? evt.uuid : 0  ) + ';'"-->
+                            <!-- Events Count Number -->
+                                <!--div class="tt-evts-single-name">
+                                    <span>{{ item.child.length }} Events</span>
+                                </div>
                             </div>
                         </div-->
+                       
                     
                     </div>
 
@@ -271,7 +270,7 @@ export default {
 
 
         this.hMems = this.hasMems == "f" ? false : true,
-        this.screenWidth = window.innerWidth,
+        this.screenWidth = (window.innerWidth * 0.7),
         this.screenHeight = window.innerHeight
 
         this.positionToTimeSlot()
