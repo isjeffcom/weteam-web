@@ -4,7 +4,7 @@
     <titlebar></titlebar>
 
     <div id="main-cont">
-      
+
       <div id="main-cont-left" v-if="hasSidebar">
         <sidebar :tabs="tabs"></sidebar>
       </div>
@@ -84,6 +84,11 @@ export default {
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+
+.el-button{
+  border-radius: 0px !important;
 }
 
 #main-cont{

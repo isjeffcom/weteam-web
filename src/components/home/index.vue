@@ -40,12 +40,40 @@ export default {
         EventBus.$emit("showSidebar", true)
 
         if(!ls.get("login_name") && !ls.get("login_token")){
-            this.$router.push('logina')
+            this.$router.push('login')
+            return
+        }
+
+        if(ls.get("to_join")){
+
+            const postReady = {
+                gid: parseInt(ls.get("to_join")),
+                uuid: parseInt(ls.get("login_uuid"))
+            }
+
+            request.post('/join', postReady, (res)=>{
+                if(res.status){
+                    this.$message({
+                        type: 'success',
+                        message: 'You have successfully joined!!'
+                    })
+                } else {
+                    this.$message({
+                        type: 'warning',
+                        message: 'Join group unsuccessful. Please try again.'
+                    })
+                }
+            })
+
+            ls.remove("to_join")
         }
 
         this.allTTData = ls.get("data_tt")
 
         this.renderDayEvt()
+
+
+
     },
     methods:{
         renderDayEvt (date) {

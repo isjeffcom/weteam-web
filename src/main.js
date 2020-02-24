@@ -4,10 +4,14 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'swiper/dist/css/swiper.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import locale from 'element-ui/lib/locale/lang/en'
+
+Vue.use(ElementUI, { locale })
  
 
 Vue.use(ElementUI)
 Vue.use(VueAwesomeSwiper)
+
 
 import router from './router.js'
 

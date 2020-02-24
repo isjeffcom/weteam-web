@@ -8,9 +8,9 @@ import login from './components/login'
 import welcome from './components/welcome'
 import signup from './components/signup'
 import join from './components/join'
-import logina from './components/logina'
 import created from'./components/created'
 import group from './components/group'
+import groupDetail from './components/groupDetail'
 import newGroup from './components/newGroup'
 import groupManager from './components/groupManager'
 
@@ -24,9 +24,9 @@ export default new VueRouter({
       { path: '/welcome', name: 'welcome', component: welcome },
       { path: '/signup', name: 'signup', component: signup },
       { path: '/join', name: 'join', component: join },
-      { path: '/logina', name: 'logina', component: logina },
       { path: '/created', name: 'created', component: created},
       { path: '/group', name: 'group', component: group },
+      { path: '/groupDetail', name: 'groupDetail', component: groupDetail },
       { path: '/newGroup', name: 'newGroup', component: newGroup },
       { path: '/groupManager', name: 'groupManager', component: groupManager },
     ]

@@ -1,11 +1,19 @@
 <template>
     <div id="group">
 
+        <div class="group-title">
+            <span>All Groups</span>
+        </div>
+
+        <div class="group-add">
+            <span style="color:#0277F9" v-on:click="toNew"> + NEW </span>
+        </div>
         
         <div class="group-list">
-            <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toGroupAdmin(item.id, item.name)">
-                <span>{{item.name}}</span><br>
-                <span>{{ item.members.split(",").length}} members</span>
+
+            <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toDetail(item.id, item.name, item.code, item.open)">
+                <span class="group-list-s-title">{{item.name}}</span><br>
+                <span class="group-list-s-sub">{{ item.members.split(",").length}} members</span>
             </div>
         </div>
 
@@ -14,11 +22,13 @@
 
 <script>
 
+import { EventBus } from '../../bus'
+
 const request = require('../../request')
 const ls = require('local-storage')
 
 export default {
-    name: "login",
+    name: "group",
     components:{
 
     },
@@ -28,27 +38,20 @@ export default {
 
     data(){
         return{
-            list: [
-                /*{
-                    gid: 33,
-                    name: "lalala",
-                    members: "10,14"
-                },
-                {
-                    gid: 16,
-                    name: "Group name",
-                    members: "15,14,16"
-                },*/
-            ],
-            myid: 11
+            list: []
         }
     },
 
     // Fire When Page Init
     created(){
-        //this.getTask(this.myid)
-        //this.getData()
+
+        if(!ls.get("login_name") && !ls.get("login_token")){
+            this.$router.push('login')
+            return
+        }
+
         this.getList(ls.get("login_uuid"))
+        EventBus.$emit("showSidebar", true)
 
     },
 
@@ -61,23 +64,31 @@ export default {
                     val: userId
                 }
             ]
+
             request.get('/group', postReady, (res)=>{
                 this.list = res.data.data
-                //console.log(this.list)
-                //console.log(res)
             })
         },
 
-        toGroupAdmin(gid, name){
+        toDetail(id, name, code, open){
+            this.$router.push({name: "groupDetail", query: { id: id, name: name, code: code, open: open }})
+        },
+
+        toNew(){
+            this.$router.push({name: "newGroup"})
+        }
+
+        /*toGroupAdmin(gid, name){
             this.$router.push({name: "groupManager", params: { gid: gid, name: name}})
             //console.log(gid)
-        }
+        }*/
     }
 }
 </script>
 
 
 <style scoped>
+
 .single{
     margin-top: 20px;
     margin-bottom: 20px;
@@ -85,19 +96,61 @@ export default {
 }
 
 .group-list{
-    width: 90%;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
+}
+
+.group-title{
+    font-size: 32px;
+    font-weight: bold;
+    text-align: left;
+    width: 95%;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .group-list-single{
     background: #FFFFFF;
     border: 0.5px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     margin-right: 20px;
-    width: 320px;
-    height: 64px;
+    width: 280px;
+    height: 48px;
     border-radius: 8px;
     margin-bottom: 20px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.42s cubic-bezier(.25,.8,.25,1);
+}
+
+.group-list-single:hover{
+    background: #F9F9F9;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.group-list-single:active{
+    background: #E4E4E4;
+}
+
+.group-list-s-title{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.group-list-s-sub{
+    font-size: 14px;
+    opacity: 0.5;
+}
+
+.group-add{
+    position: absolute;
+    margin-top: -30px;
+    right: 30px;
+    cursor: pointer;
 }
 </style>

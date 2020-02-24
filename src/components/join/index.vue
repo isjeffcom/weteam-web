@@ -1,10 +1,10 @@
 <template>
     <div id="join">
 
-        <div id="join-inner">
+        <div id="join-inner" v-loading="loading">
 
             <div class="join-invitor-name">
-                <span>JIANFENG WU</span><br>
+                <span>{{userName}}</span>
             </div>
 
             <div class="cont-list-single">
@@ -12,13 +12,11 @@
             </div>
            
             <div class="join-icon">
-
-                <img src="../../assets/team.png" alt="team icon">
+                <img src="../../assets/team.png" alt="team icon"/>
             </div>        
             
             <div class="cont-list-sin" >
-                <span>DMSP Group</span>
-
+                <span>{{groupName}}</span>
             </div>
 
             <div class="cont-list-sing">
@@ -28,60 +26,102 @@
             </div>
             
             <div class="Join button">
-            <el-row>
-        
-                <el-button type="success" style="background:#1DDB8B; border:none;">JOIN</el-button>
+                <el-row>
+            
+                    <el-button type="success" style="background:#1DDB8B; border:none;" v-on:click="toJoin">JOIN</el-button>
 
-            </el-row>   
+                </el-row>   
             </div>
             
             <div class="cont-list">       
                 <span>By click JOIN, you agree with TEAMWORK’S </span>
-            
             </div>
             
             <div class="cont-list-singl">
             
                 <span>Terms and conditions</span>
-                
-
             </div>
-        </div>
-
-        
-             
-
-                
+        </div> 
     </div>
 </template>
 
-
-
-
-
 <script>
+
+import { EventBus } from '../../bus'
+
+const request = require('../../request')
+const ls = require('local-storage')
+
 export default {
     name: "join",
     data() {
       return {
-        value: true
+        value: true,
+        userName: "",
+        groupName: "",
+        toGID: "",
+        loading: false
       }
-    }
-  };
+    },
+    created(){
+        EventBus.$emit("showSidebar", false)
+        this.userName = this.$route.query.uname
+        this.groupName = this.$route.query.gname
+        this.code = this.$route.query.code
+        this.toGID = this.$route.query.gid
+        this.uuid = this.$route.query.uuid
+    },
+    methods:{
+        toJoin(){
+            console.log(ls.get("login_uuid"))
+            if(ls.get("login_uuid")){
+                this.loading = true
 
+                const postReady = {
+                    gid: this.toGID,
+                    uuid: parseInt(ls.get("login_uuid"))
+                }
+
+
+                request.post('/join', postReady, (res)=>{
+                    
+                    this.loading = false
+                    if(res.status){
+
+                        this.$message({
+                            type: 'success',
+                            message: 'Welcome!'
+                        })
+                        this.$router.push({name: "group"})
+
+                    } else {
+                        this.$message({
+                            type: 'warning',
+                            message: 'Something Wrong'
+                        })
+                    }
+                })
+            } else {
+                this.$message({
+                    type: 'warning',
+                    message: "You haven't sign in yet, please the team know who you are."
+                })
+
+                ls.set("to_join", this.toGID)
+                this.$router.push({name: "home"})
+            }
+        }
+    }
+}
 
 </script>
 
 <style scoped>
 
-    #join{
+    #join-inner{
         width: 100%;
         text-align: center
        
-    }
-
-    #join-inner{
-        
     }
     
     .join-invitor-name{
@@ -114,9 +154,8 @@ export default {
         font-weight: bold;
     }
     .cont-list-sin{
-    font-size: 35px;
-    font-weight: bolder;
-
+        font-size: 35px;
+        font-weight: bolder;
     }
     .main{
         padding: 20px;
