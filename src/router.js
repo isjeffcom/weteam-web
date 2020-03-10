@@ -13,6 +13,10 @@ import group from './components/group'
 import groupDetail from './components/groupDetail'
 import newGroup from './components/newGroup'
 import groupManager from './components/groupManager'
+import MyTask from './components/MyTask'
+import MyNewTask from './components/MyNewTask'
+import GroupTask from './components/GroupTask'
+import GroupNewTask from './components/GroupNewTask'
 
 
 
@@ -29,5 +33,9 @@ export default new VueRouter({
       { path: '/groupDetail', name: 'groupDetail', component: groupDetail },
       { path: '/newGroup', name: 'newGroup', component: newGroup },
       { path: '/groupManager', name: 'groupManager', component: groupManager },
+      { path: '/MyTask', name: 'MyTask', component: MyTask },
+      { path: '/MyNewTask', name: 'MyNewTask', component: MyNewTask },
+      { path: '/GroupTask', name: 'GroupTask', component: GroupTask },
+      { path: '/GroupNewTask', name: 'GroupNewTask', component: GroupNewTask },
     ]
 })
