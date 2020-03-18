@@ -1,18 +1,19 @@
 <template>
-    <div id="task">
+    <div id="popup">
 
-        <div class="task-title">
-            <span>Group {{this.gid}} Task</span>
+
+        <div class="popup-bg" v-on:click="close"></div>
+
+        <div class="popup-cont">
+            <div class="popup-inner">
+                <input id="taskName" type="text" v-model="taskName"><br>
+                <input id="taskstart" type="text" v-model="taskStart"><br>
+                <input id="taskEnd" type="text" v-model="taskEnd"><br>
+                <input id="taskColor" type="text" v-model="taskColor"><br>
+                <button v-on:click="addNew">SUBMIT</button>
+            </div>
         </div>
 
-        <div class="task-add">
-             <input id="taskName" type="text" v-model="taskName"><br>
-             <input id="taskstart" type="text" v-model="taskStart"><br>
-             <input id="taskEnd" type="text" v-model="taskEnd"><br>
-             <input id="taskColor" type="text" v-model="taskColor"><br>
-            <span style="color:#0277F9" v-on:click="addNew"> + NEW </span>
-        </div>
-        
 
     </div>
 </template>
@@ -31,13 +32,15 @@ export default {
 
     },
     props:{
-
+        gid: {
+            type: Number,
+            default: 15
+        }
     },
 
     data(){
         return{
             userId: 16,
-            gid: 15,
             taskName:"task name",
             taskStart:"start date",
             taskEnd:"end date",
@@ -46,35 +49,27 @@ export default {
         }
     },
 
-    // Fire When Page Init
-    created(){
-        //console.log(this.userId)
-        //this.getList(this.userId)
-        /*if(!ls.get("login_name") && !ls.get("login_token")){
-            this.$router.push('login')
-            return
-        }
-
-        this.getList(ls.get("login_uuid"))
-        EventBus.$emit("showSidebar", true)*/
-
-    },
-
     methods:{
         addNew(){
             const postReady = {
-                    uid: this.userId,
-                    gid: this.gid,
-                    taskName: this.taskName,
-                    taskStart: this.taskStart,
-                    taskEnd: this.taskEnd,
-                    taskColor: this.taskColor,
-                }
+                uid: this.userId,
+                gid: this.gid,
+                taskName: this.taskName,
+                taskStart: this.taskStart,
+                taskEnd: this.taskEnd,
+                taskColor: this.taskColor,
+            }
 
-                request.post('/addMyTask', postReady, (res)=>{
-                    console.log(res)
-                })
+            request.post('/addMyTask', postReady, (res)=>{
+                if(res.status){
+                    this.close()
+                }
+            })
         },
+
+        close(){
+            EventBus.$emit("popup-close", true)
+        }
     }
 }
 </script>

@@ -77,11 +77,6 @@ export default {
         toNew(){
             this.$router.push({name: "newGroup"})
         }
-
-        /*toGroupAdmin(gid, name){
-            this.$router.push({name: "groupManager", params: { gid: gid, name: name}})
-            //console.log(gid)
-        }*/
     }
 }
 </script>

@@ -13,16 +13,17 @@
 
             <div class="task-list-single" v-for="(item, index) in list" :key="index">
                 <span class="task-list-s-title">{{item.des}}</span><br>
-                <span class="task-list-s-sub">{{item.endDate}} members</span><br>
-                <span class="task-list-s-sub">{{item.state}} members</span>
+                <span class="task-list-s-sub">Due: {{item.endDate}}</span><br>
             </div>
         </div>
+
+        <newTask id="newTask" v-if="newPopup"></newTask>
 
     </div>
 </template>
 
 <script>
-
+import newTask from '../GroupNewTask'
 import { EventBus } from '../../bus'
 
 const request = require('../../request')
@@ -32,7 +33,7 @@ export default {
     
     //name: "task",
     components:{
-
+        newTask
     },
     props:{
 
@@ -42,21 +43,21 @@ export default {
         return{
             userId: 16,
             gid: 15,
-            list: []
+            list: [],
+            newPopup: false,
         }
+    },
+
+    mounted(){
+        this.getList(this.userId, this.gid)
     },
 
     // Fire When Page Init
     created(){
-        //console.log(this.userId)
-        this.getList(this.userId,this.gid)
-        /*if(!ls.get("login_name") && !ls.get("login_token")){
-            this.$router.push('login')
-            return
-        }
 
-        this.getList(ls.get("login_uuid"))
-        EventBus.$emit("showSidebar", true)*/
+        EventBus.$on("popup-close", ()=>{
+            this.newPopup = false
+        })
 
     },
 
@@ -76,13 +77,16 @@ export default {
             ]
 
             request.get('/groupTask', postReady, (res)=>{
-                console.log(res)
-                //this.list = res.data
+                if(res.status){
+                    this.list = res.data.data
+                }
+                
             })
         },
-    toNew(){
 
-    }
+        toNew(){
+            this.newPopup = true
+        }
     }
 }
 </script>
@@ -154,4 +158,5 @@ export default {
     right: 30px;
     cursor: pointer;
 }
+
 </style>

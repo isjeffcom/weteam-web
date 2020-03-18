@@ -1,65 +1,90 @@
 <template>
-    <div id="group-detail">
+    <div id="groupdetail">
 
-        <div id="group-info">
-            <div id="group-info-inner">
+        <div id="group-daily" v-if="current == 0">
+            <div id="group-info">
+                <div id="group-info-inner">
 
-                <div id="group-info-left">
-                    <div id="group-info-avatar">
-                        <img src="../../assets/i_group_c.svg" alt="group management button">
+                    <div id="group-info-left">
+                        <div id="group-info-avatar">
+                            <img src="../../assets/i_group_c.svg" alt="group management button">
+                        </div>
+
+                        <div id="group-info-name">
+                            <span>{{gname}}</span>
+                        </div>
+
+                        <div id="group-info-more" v-on:click="toGroupManage">
+                            <img src="../../assets/i_more.svg" alt="to group management page">
+                        </div>
                     </div>
 
-                    <div id="group-info-name">
-                        <span>{{gname}}</span>
-                    </div>
+                    <div id="group-info-right">
+                        <div id="group-info-invite" v-if="gopen" v-on:click="popInvite">
+                            <span> + Invite</span>
+                        </div>
 
-                    <div id="group-info-more" v-on:click="toGroupManage">
-                        <img src="../../assets/i_more.svg" alt="to group management page">
-                    </div>
-                </div>
-
-                <div id="group-info-right">
-                    <div id="group-info-invite" v-if="gopen" v-on:click="popInvite">
-                        <span> + Invite</span>
-                    </div>
-
-                    <div v-else>
-                        <span style="opacity: 0.5;">Access Closed by Admin</span>
+                        <div v-else>
+                            <span style="opacity: 0.5;">Access Closed by Admin</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div id="group-calendar">
+                <calendar initView="week" selectedColor="#0277F9" v-on:day="afterTapDay"></calendar>
+            </div>
+
+            <div id="group-timetable">
+                <timetable :events="currentEvtArr"></timetable>
+            </div>
         </div>
 
-        <div id="group-calendar">
-            <calendar initView="week" selectedColor="#0277F9" v-on:day="afterTapDay"></calendar>
+        <div id="group-tasks" v-if="current == 1">
+            <groupTasks></groupTasks>
         </div>
 
-        <div id="group-timetable">
-            <timetable :events="currentEvtArr"></timetable>
+        <div id="group-switcher">
+            <div 
+                class="group-sw-s" 
+                :style="'width:calc(100%/' + tabs.length + ');'"
+                v-for="(item, index) in tabs" 
+                :key="index"
+                v-on:click="switchTab(index)">
+
+                <span :style="'color:' + (current == index ? '#0277F9' : '#000000')">{{item}}</span>
+                <div class="group-sw-indi" v-show="current == index"></div>
+            </div>
         </div>
+
+        
     </div>
 </template>
 
 <script>
 import calendar from '../widgets/calendar'
 import timetable from '../widgets/timetable'
+import groupTasks from '../GroupTask'
 
 const util = require('../../support/util')
 const request = require('../../request')
 const ls = require('local-storage')
 
 export default {
-    name: "groupDetail",
+    name: "groupdetail",
     components:{
         calendar,
-        timetable
+        timetable,
+        groupTasks
     },
     data(){
         return{
+            current: 0,
             gid: "",
             gname: "",
             gcode: "",
             gopen: true,
+            tabs: ["Calendar", "Task"],
             memImgs: [],
             allTTData: [],
             allTasksData: [],
@@ -84,13 +109,18 @@ export default {
 
     },
 
-
     methods:{
+
+        switchTab(idx){
+            this.current = idx
+        },  
+
         afterTapDay(val) {
             this.renderDayEvt(val)
         },
 
         renderDayEvt(date) {
+
             if (!date) {
                 var tod = new Date()
                 date = { day: tod.getDate(), week: tod.getDay(), month: tod.getMonth() + 1, year: tod.getFullYear() }
@@ -104,7 +134,6 @@ export default {
         },
 
         getEvt(sDate) {
-
 
             // Get data from local storage
             var tt = this.allTTData
@@ -171,6 +200,10 @@ export default {
 </script>
 
 <style scoped>
+#groupdetail{
+    width: 100%;
+}
+
 #group-timetable{
     height: 500px;
 }
@@ -238,5 +271,31 @@ export default {
 #group-info-invite:hover{
     background: #0277F9;
     color: #ffffff;
+}
+
+#group-switcher{
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    width: 80%;
+    background: #fff;
+    display: flex;
+    text-align: center;
+}
+
+.group-sw-s{
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+}
+
+.group-sw-indi{
+    width: 36px;
+    height: 5px;
+    border-radius: 100px;
+    background:#0277F9;
+    margin-top: 6px;
+    margin-left: auto;
+    margin-right:auto;
 }
 </style>
