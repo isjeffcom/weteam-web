@@ -123,9 +123,9 @@
 
             <!-- Detail Popup Window Content -->
             <div class="tt-evts-detail-content tt-evt-switch-ani" :style="'opacity:' + tt_evt_switch.opa + ';'">
-                <span class="tt-evts-detail-c-s">开始: {{currentInfo[currentInfoIndex].start}}</span> <br>
-                <span class="tt-evts-detail-c-s">结束: {{currentInfo[currentInfoIndex].end}}</span> <br>
-                <span class="tt-evts-detail-c-s">位置: {{currentInfo[currentInfoIndex].location}}</span> <br>
+                <span class="tt-evts-detail-c-s">Start: {{currentInfo[currentInfoIndex].start}}</span> <br>
+                <span class="tt-evts-detail-c-s">End: {{currentInfo[currentInfoIndex].end}}</span> <br>
+                <span class="tt-evts-detail-c-s">Location: {{currentInfo[currentInfoIndex].location}}</span> <br>
                 <span v-if="currentInfo[currentInfoIndex].hide" style="opacity: 0.5;font-size: 14px;">用户开启隐私保护，不显示名称地点</span>
             </div>
 

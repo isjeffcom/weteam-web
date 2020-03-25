@@ -27,11 +27,20 @@
                         <el-input style="width: 410px;" v-model="password" type="password" placeholder="Password" ></el-input>
                     </div>
 
+                    <div class="notice" style="opacity: 0.5; font-size: 12px;">
+                        <span style="font-weight: bold;">Test Account: </span>
+                        <br>
+                        <span>1. Number: 1234567, Password: 1234567</span>
+                        <br>
+                        <span>2. Number: 7654321, Password: 7654321</span>
+                    </div>
+                    
+
+
                     <div class="button">
                         <el-button type="success" :style="'background:' + submitColor + ';border:none; width: 410px; font-weight: bold; font-size: 16px;'" v-on:click="loginLocal">
                             LOGIN OR CREATE
                         </el-button>
-
                     </div>
 
                     <div class="terms">
@@ -68,7 +77,7 @@ const ls = require('local-storage')
     data() {
         return {
             email: '',
-            password: '',
+            password: "",
             submitColor: "#C2C2C2",
             submit_disabled: "#C2C2C2",
             submit_enable: "#0277F9",
@@ -160,12 +169,12 @@ const ls = require('local-storage')
 
     #login-input-cont{
         width: 550px;
-        margin-left: 120px;
+        margin-left: 140px;
     }
 
 
     .login-title{
-        margin-top:140px;
+        margin-top:110px;
         margin-bottom:40px;
         font-size: 30px;
         font-weight:bold;

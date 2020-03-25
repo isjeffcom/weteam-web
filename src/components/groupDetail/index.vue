@@ -151,11 +151,11 @@ export default {
             const base_url = window.location.origin
             const uuid = ls.get("login_uuid")
             const username = ls.get("data_n")
-
+            // HARD FIX ATTENTION
             this.$prompt('Copy Invite Link', 'Invitation', {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'CANCEL',
-                inputValue: base_url + '/#/join/?code='+this.gcode+'&uname='+username+'&gid='+this.gid+'&gname='+this.gname,
+                inputValue: base_url + '/~s1929291/teamwork/#/join/?code='+this.gcode+'&uname='+username+'&gid='+this.gid+'&gname='+this.gname,
             }).then(({ value }) => {
 
             }).catch(() => {

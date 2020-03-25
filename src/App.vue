@@ -36,21 +36,21 @@ export default {
       hasSidebar: true,
       tabs: [
           {
-              icon: "/assets/icons/i_calendar.svg",
-              icon_selected: "/assets/icons/i_calendar_s.svg",
+              icon: "./assets/icons/i_calendar.svg",
+              icon_selected: "./assets/icons/i_calendar_s.svg",
               routerName: "home",
               name: "Calendar"
           },
           {
-              icon: "/assets/icons/i_team.svg",
-              icon_selected: "/assets/icons/i_team_s.svg",
+              icon: "./assets/icons/i_team.svg",
+              icon_selected: "./assets/icons/i_team_s.svg",
               routerName: "group",
               name: "Groups"
           },
           {
-              icon: "/assets/icons/i_tasks.svg",
-              icon_selected: "/assets/icons/i_tasks_s.svg",
-              routerName: "newGroup",
+              icon: "./assets/icons/i_tasks.svg",
+              icon_selected: "./assets/icons/i_tasks_s.svg",
+              routerName: "task",
               name: "Tasks"
           }
       ]
