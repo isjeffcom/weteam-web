@@ -1,36 +1,39 @@
 <template>
-    <div id="group">
+    <div id="task">
 
-        <div class="group-title">
-            <span>All Groups</span>
+        <div class="task-title">
+            <span>Group {{this.gid}} Task</span>
         </div>
 
-        <div class="group-add">
+        <div class="task-add">
             <span style="color:#0277F9" v-on:click="toNew"> + NEW </span>
         </div>
         
-        <div class="group-list">
+        <div class="task-list">
 
-            <div class="group-list-single" v-for="(item, index) in list" :key="index" v-on:click="toDetail(item.id, item.name, item.code, item.open)">
-                <span class="group-list-s-title">{{item.name}}</span><br>
-                <span class="group-list-s-sub">{{ item.members.split(",").length}} members</span>
+            <div class="task-list-single" v-for="(item, index) in list" :key="index">
+                <span class="task-list-s-title">{{item.des}}</span><br>
+                <span class="task-list-s-sub">Due: {{item.endDate}}</span><br>
             </div>
         </div>
+
+        <newTask id="newTask" v-if="newPopup"></newTask>
 
     </div>
 </template>
 
 <script>
-
+import newTask from '../GroupNewTask'
 import { EventBus } from '../../bus'
 
 const request = require('../../request')
 const ls = require('local-storage')
 
 export default {
-    name: "group",
+    
+    //name: "task",
     components:{
-
+        newTask
     },
     props:{
 
@@ -38,44 +41,51 @@ export default {
 
     data(){
         return{
-            list: []
+            userId: 16,
+            gid: 15,
+            list: [],
+            newPopup: false,
         }
+    },
+
+    mounted(){
+        this.getList(this.userId, this.gid)
     },
 
     // Fire When Page Init
     created(){
 
-        if(!ls.get("login_name") && !ls.get("login_token")){
-            this.$router.push('login')
-            return
-        }
-
-        this.getList(ls.get("login_uuid"))
-        EventBus.$emit("showSidebar", true)
+        EventBus.$on("popup-close", ()=>{
+            this.newPopup = false
+        })
 
     },
 
     methods:{
-        getList(userId){
-
+        getList(userId,gid){
+            //console.log(userId)
             const postReady = [
                 {
                     name: "id",
                     val: userId
+                },
+
+                {
+                    name: "gid",
+                    val: gid
                 }
             ]
 
-            request.get('/group', postReady, (res)=>{
-                this.list = res.data.data
+            request.get('/groupTask', postReady, (res)=>{
+                if(res.status){
+                    this.list = res.data.data
+                }
+                
             })
         },
 
-        toDetail(id, name, code, open){
-            this.$router.push({name: "groupDetail", query: { id: id, name: name, code: code, open: open }})
-        },
-
         toNew(){
-            this.$router.push({name: "newGroup"})
+            this.newPopup = true
         }
     }
 }
@@ -90,7 +100,7 @@ export default {
     border-bottom: 1px solid rgba(0,0,0,0.5);
 }
 
-.group-list{
+.task-list{
     width: 95%;
     margin-left: auto;
     margin-right: auto;
@@ -99,7 +109,7 @@ export default {
     flex-wrap: wrap;
 }
 
-.group-title{
+.task-title{
     font-size: 32px;
     font-weight: bold;
     text-align: left;
@@ -109,7 +119,7 @@ export default {
     margin-right: auto;
 }
 
-.group-list-single{
+.task-list-single{
     background: #FFFFFF;
     border: 0.5px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -123,29 +133,30 @@ export default {
     transition: all 0.42s cubic-bezier(.25,.8,.25,1);
 }
 
-.group-list-single:hover{
+.task-list-single:hover{
     background: #F9F9F9;
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-.group-list-single:active{
+.task-list-single:active{
     background: #E4E4E4;
 }
 
-.group-list-s-title{
+.task-list-s-title{
     font-size: 20px;
     font-weight: bold;
 }
 
-.group-list-s-sub{
+.task-list-s-sub{
     font-size: 14px;
     opacity: 0.5;
 }
 
-.group-add{
+.task-add{
     position: absolute;
     margin-top: -30px;
     right: 30px;
     cursor: pointer;
 }
+
 </style>

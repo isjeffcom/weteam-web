@@ -108,5 +108,51 @@ export default {
 
 #rv{
   width: 100%;
+  overflow: hidden;
+}
+
+.pupup-title{
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#popup{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.popup-bg{
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 99998;
+}
+
+.popup-cont{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 99999;
+}
+
+.popup-inner{
+  top: 50%;
+  transform: translateY(50%);
+  margin-left: auto;
+  margin-right: auto;
+  width: 410px;
+  height: 300px;
+  background: #fff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.05);
+  z-index: 99999;
 }
 </style>

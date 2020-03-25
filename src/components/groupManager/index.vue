@@ -237,13 +237,6 @@ span{
     margin-bottom: 20px;
 }
 
-.group-manager-name{
-
-}
-
-
-
-
 .group-manager-mems-cont{
     width: 100%;
     margin-top: 20px;
