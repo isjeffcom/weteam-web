@@ -201,7 +201,8 @@ export default {
 
 .user-widget-title{
     margin-top: 24px;
-    font-size: 20px;
+    font-size: 18px;
+    color: #6B717D;
 }
 
 .user-widget-inner{

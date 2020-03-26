@@ -6,6 +6,11 @@ import 'swiper/dist/css/swiper.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import locale from 'element-ui/lib/locale/lang/en'
 
+import VueApexCharts from 'vue-apexcharts'
+Vue.use(VueApexCharts)
+ 
+Vue.component('apexchart', VueApexCharts)
+
 Vue.use(ElementUI, { locale })
  
 

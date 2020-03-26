@@ -34,6 +34,26 @@
                 <div class="today-m-s"  :style="'animation-delay: 0.4s;'">
                     <due></due>
                 </div>
+
+                <div class="today-m-s"  :style="'animation-delay: 0.5s;'">
+                    <thisweek></thisweek>
+                </div>
+
+                <div class="today-m-s"  :style="'animation-delay: 0.5s;'">
+                    <teammates></teammates>
+                </div>
+
+                
+            </div>
+
+            <div class="today-row">
+                <div class="today-m-s"  :style="'animation-delay: 0.5s;'">
+                    <workload></workload>
+                </div>
+
+                <div class="today-m-s"  :style="'animation-delay: 0.5s;'">
+                    <assist></assist>
+                </div>
             </div>
             
 
@@ -50,6 +70,10 @@ import userdata from '../todaywidgets/userdata'
 import teams from '../todaywidgets/teams'
 import roles from '../todaywidgets/roles'
 import due from '../todaywidgets/due'
+import thisweek from '../todaywidgets/thisweek'
+import teammates from '../todaywidgets/teammates'
+import workload from '../todaywidgets/workload'
+import assist from '../todaywidgets/assist'
 
 export default {
     name: "today",
@@ -58,7 +82,11 @@ export default {
         userdata,
         teams,
         roles,
-        due
+        due,
+        thisweek,
+        teammates,
+        workload,
+        assist
     },
     data(){
         return{
