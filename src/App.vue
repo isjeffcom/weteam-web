@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <titlebar></titlebar>
+    
 
     <div id="main-cont">
 
@@ -10,6 +10,7 @@
       </div>
 
       <div id="main-cont-right">
+        <titlebar :color="titlebarColor"></titlebar>
         <router-view id="rv"></router-view>
       </div>
       
@@ -34,7 +35,14 @@ export default {
   data(){
     return{
       hasSidebar: true,
+      titlebarColor: "white",
       tabs: [
+          {
+              icon: "./assets/icons/i_today.svg",
+              icon_selected: "./assets/icons/i_today_s.svg",
+              routerName: "today",
+              name: "Today"
+          },
           {
               icon: "./assets/icons/i_calendar.svg",
               icon_selected: "./assets/icons/i_calendar_s.svg",
@@ -56,12 +64,25 @@ export default {
       ]
     }
   },
+
+  watch: { 
+    '$route': {
+      handler: function(data) {
+        if(data.name == "today"){
+          this.titlebarColor = "white"
+        } else {
+          this.titlebarColor = "black"
+        }
+        console.log(data)
+      },
+    }
+  },
+
   created(){
     //Global Router
     var that = this
     EventBus.$on("sidebar", function(data){
       
-      console.log(that.tabs[data].routerName)
       that.$router.push(that.tabs[data].routerName)
     })
 
@@ -97,11 +118,11 @@ export default {
 }
 
 #main-cont-left{
-  width: 20%;
+  width: 10%;
 }
 
 #main-cont-right{
-  width: 80%;
+  width: 90%;
   height: 100%;
   overflow: hidden;
 }
@@ -155,4 +176,38 @@ export default {
   border: 1px solid rgba(0,0,0,0.05);
   z-index: 99999;
 }
+
+.user-widget{
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  color: #494E59;
+  transition: all 1.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.user-widget:hover{
+  box-shadow: 0px 10px 22px rgba(0, 0, 0, 0.1);
+}
+
+.user-widget-more{
+    float: right;
+    cursor: pointer;
+    margin-right: 2px;
+    margin-top: -26px;
+}
+
+.user-widget-title{
+    margin-top: 24px;
+    font-size: 20px;
+}
+
+.user-widget-inner{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 </style>

@@ -1,6 +1,11 @@
 <template>
     <div id="sidebar">
         <div id="sidebar-inner">
+
+            <div id="sidebar-logo">
+                <img src="../../../assets/logo.png" alt="">
+            </div>
+
             <div id="sidebar-tab">
                 <div class="sidebar-tab-s" v-for="(item, index) in tabs" :key="index" v-on:click="clicked(index)">
                     <div class="sidebar-tab-s-icon">
@@ -31,6 +36,7 @@ export default {
     data(){
         return{
             current: 0,
+            height: 0,
             unselectedColor: "#000000",
             selectedColor: "#0277F9"
         }
@@ -64,8 +70,20 @@ export default {
 
 <style scoped>
 #sidebar{
-    width: 100%;
+    position: fixed;
+    width: 10%;
+    height: 100%;
     user-select: none;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+#sidebar-logo{
+    margin-top: 30px;
+    margin-bottom: 60px;
+}
+
+#sidebar-logo img{
+    width: 120px;
 }
 
 #sidebar-inner{
@@ -88,7 +106,7 @@ export default {
 }
 
 .sidebar-tab-s-text{
-    margin-top: 6px;
+    margin-top: 4px;
     margin-left: 18px;
     font-size: 20px;
 }

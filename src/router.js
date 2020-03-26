@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import home from './components/home'
+import today from './components/today'
 import login from './components/login'
 import welcome from './components/welcome'
 import signup from './components/signup'
@@ -25,6 +26,7 @@ import TaskEdit from './components/TaskEdit'
 export default new VueRouter({
   routes: [
       { path:'/', name:'Home', redirect: '/home' },
+      { path: '/today', name: 'today', component: today },
       { path: '/home', name: 'home', component: home },
       { path: '/login', name: 'login', component: login },
       { path: '/welcome', name: 'welcome', component: welcome },
