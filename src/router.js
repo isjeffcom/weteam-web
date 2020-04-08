@@ -20,6 +20,7 @@ import MyNewTask from './components/MyNewTask'
 import GroupTask from './components/GroupTask'
 import GroupNewTask from './components/GroupNewTask'
 import TaskEdit from './components/TaskEdit'
+import personal from './components/personal'
 
 
 
@@ -43,5 +44,6 @@ export default new VueRouter({
       { path: '/GroupTask', name: 'GroupTask', component: GroupTask },
       { path: '/GroupNewTask', name: 'GroupNewTask', component: GroupNewTask },
       { path: '/TaskEdit', name: 'TaskEdit', component: TaskEdit },
+      { path: '/personal', name: 'personal', component: personal},
     ]
 })
