@@ -37,7 +37,7 @@ export default {
         return{
             current: 0,
             height: 0,
-            unselectedColor: "#000000",
+            unselectedColor: "#6B717D",
             selectedColor: "#0277F9"
         }
     },

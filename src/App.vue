@@ -73,7 +73,7 @@ export default {
         } else {
           this.titlebarColor = "black"
         }
-        console.log(data)
+
       },
     }
   },
@@ -98,6 +98,53 @@ export default {
 *{
   padding: 0;
   margin: 0;
+}
+
+input{
+  height: 30px;
+  width: 100%;
+  appearance: none;
+  border: none;
+  border-bottom: 2px solid #888;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+input:focus{
+  outline: none;
+  border-bottom: 2px solid #000;
+}
+
+button{
+  background: #0277F9;
+  border-radius: 2px;
+  width: 100%;
+  height: 50px;
+  color: #ffffff;
+  padding: 14px;
+  appearance: none;
+  font-size: 16px;
+  font-weight: bold;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline:none;
+  border: none;
+  cursor: pointer;
+}
+
+button:active{
+  color: #ffffff;
+  background: #006FEA;
+  outline:none;
+}
+
+.dp-overwrite{
+  border-bottom: none;
+  color: #797979;
+  border: 1px solid #C2C2C2;
+  background: #F2F2F2;
+  border-radius: 2px;
 }
 
 #app {
