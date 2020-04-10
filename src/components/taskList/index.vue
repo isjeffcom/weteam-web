@@ -2,11 +2,11 @@
     <div id="task">
 
         <div class="task-title">
-            <span>{{ gname }}</span>
+            <span>{{ gname ? gname : "My Task" }}</span>
         </div>
 
         <div class="task-add">
-            <span style="color:#0277F9" v-on:click="toNew"> + NEW </span>
+            <span style="color:#0277F9" v-on:click="toNew()"> + NEW </span>
         </div>
         
         <div class="task-list">
@@ -30,7 +30,7 @@
 
                         <div class="task-ls-info">
                             <div class="task-list-sgroup">
-                                <span>{{ gname }}</span>
+                                <span>{{ item.groupName }}</span>
                                 <hr>
                             </div>
 
@@ -40,8 +40,8 @@
                             </div>
 
                             <div class="task-list-s-sub" v-show="item.endDate != '0000-00-00'">
-                                <hr>
-                                <span class="task-list-s-sub">Due: {{item.endDate}}</span>
+                                <hr style="opacity: 0.5;">
+                                <span class="task-list-s-sub" :style="'color:' + (checkDate(item.endDate) ? '#96A0B4' : '#F24C4C')">Due: {{item.endDate}}</span>
                             </div>
                         </div>
 
@@ -55,17 +55,16 @@
                 
             </div>
 
-            
         </div>
 
-        <newTask id="newTask" :gid="gid" v-if="newPopup"></newTask>
-        <newTask id="editTask" :gid="gid" :d="selected" v-if="editGroup"></newTask>
+        <newTask id="newTask" :gid="String(gid)" v-if="newPopup"></newTask>
+        <newTask id="editTask" :gid="String(gid)" :d="selected" v-if="editGroup"></newTask>
 
     </div>
 </template>
 
 <script>
-import newTask from '../GroupNewTask'
+import newTask from '../newTask'
 import { EventBus } from '../../bus'
 
 const request = require('../../request')
@@ -77,70 +76,114 @@ export default {
     components:{
         newTask
     },
-    props:{
-
-    },
 
     data(){
         return{
-            api: "",
+            api_group: '/groupTask',
+            api_user: '/task',
+            api_edit: '/editTask',
             states: [
                 { n: "To Do", s: 0}, 
                 { n: "Done", s: 1}, 
             ],
-            userId: 16,
+            userId: null,
             gname: "",
-            gid: 15,
+            gid: null,
             list: [],
             selected: {},
             selectedState: 0,
             newPopup: false,
-            editGroup: false
+            editGroup: false,
+            mode:"group"
         }
     },
 
     mounted(){
         this.userId = ls.get("login_uuid")
-        this.gid = this.$route.query.id
-        this.gname = this.$route.query.name
-        this.getList(this.userId, this.gid)
+
+        // If enter from group
+        if(this.$route.query.id && this.$route.query.name){
+            this.mode = "group"
+            this.gid = this.$route.query.id
+            this.gname = this.$route.query.name
+        } else {
+            // If enter from sidebar tasks
+            this.mode = "user"
+        }
+
+        this.refresh()
+
+        
+        
     },
 
     // Fire When Page Init
     created(){
-
+        // Close window
         EventBus.$on("popup-close", ()=>{
             this.newPopup = false
             this.editGroup = false
         })
 
+        // Add Task Finished
         EventBus.$on("task-added", ()=>{
-            this.getList(this.userId, this.gid)
+            this.refresh() 
         })
 
     },
 
     methods:{
-        getList(userId,gid){
-            //console.log(userId)
+
+        refresh(){
+            if(this.mode == "group") {
+                this.getList(this.api_group, this.userId, this.gid)
+            }
+
+            if(this.mode == "user") {
+                this.getList(this.api_user, this.userId)
+            }
+        },
+        getList(api, userId, gid){
+
             const postReady = [
                 {
-                    name: "id",
+                    name: "uuid",
                     val: userId
                 },
 
                 {
-                    name: "gid",
-                    val: gid
+                    name: "id",
+                    val: userId
                 }
             ]
 
-            request.get('/groupTask', postReady, (res)=>{
+            if(gid){
+                postReady.push({
+                    name: "gid",
+                    val: gid
+                })
+            }
+
+
+            request.get(api, postReady, (res)=>{
                 if(res.status){
                     let all = res.data.data
                     let ready = [[], []]
-                    
+                    let ginfo
+
+                    if(this.mode == "user"){
+                        ginfo = res.data.groupData
+                    }
+
+
                     all.forEach((el,index) => {
+                        
+                        if(this.mode == "user"){
+                            el.groupName = this.findGroupName(el.gid, ginfo)
+                        } else {
+                            el.groupName = this.gname
+                        }
+                        
                         if(el.state == 0){
                             ready[0].push(el)
                         }
@@ -151,6 +194,7 @@ export default {
 
                         if(index == all.length - 1){
                             this.list = ready
+
                         }
                     });
                 }
@@ -174,9 +218,9 @@ export default {
                 taskState: obj.state == 1 ? 0 : 1
             }
 
-            request.post('/editTask', postReady, (res)=>{
+            request.post(this.api_edit, postReady, (res)=>{
                 if(res.status){
-                    this.getList(this.userId, this.gid)
+                    this.refresh()
                 }
             })
             
@@ -185,15 +229,43 @@ export default {
         toEdit(obj){
             this.selected = obj
             this.editGroup = true
-            //console.log(obj)
+            this.gid = obj.gid
         },
 
         switchState(val){
             this.selectedState = val
         },
 
+        findGroupName(target, arr){
+            let res = ""
+            for(let i=0;i<arr.length;i++){
+                if(target == arr[i].id){
+                    res = arr[i].name
+                }
+            }
+
+            return res
+        },
+
+        checkDate(due){
+            // Due
+            let d = new Date(due)
+
+            // Current
+            let c = new Date()
+
+            if(d < c){
+                return false
+            } else {
+                return true
+            }
+        },
+
 
         toNew(){
+            if(this.mode == "user"){
+                this.gid = "null"
+            }
             this.newPopup = true
         }
     }
@@ -206,8 +278,15 @@ export default {
 .circle{
     width: 16px;
     height: 16px;
-    border: 1px solid rgb(121, 121, 121);
+    border: 1px solid #96A0B4;
     border-radius: 100px;
+    background: #ffffff;
+    transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.circle:hover{
+    background: #0DD681;
+    border: 1px solid #0DD681;
 }
 
 .single{
@@ -227,7 +306,7 @@ export default {
 }
 
 .task-list-states{
-    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .task-list-states-inner{
@@ -305,7 +384,6 @@ export default {
 .task-list-s-sub{
     margin-top:4px;
     font-size: 12px;
-    opacity: 0.5;
 }
 
 .task-list-sgroup{

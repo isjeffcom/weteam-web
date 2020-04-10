@@ -7,6 +7,15 @@
         <div id="home-timetable">
             <timetable :events="currentEvtArr"></timetable>
         </div>
+
+        <div id="add-calendar" class="floating-btn" v-on:click="newEvt = true">
+            <div class="floating-btn-inner">
+                <img src="../../assets/add.svg" alt="add event">
+            </div>
+        </div>
+
+        <newEvt id="newTask" v-if="newEvt"></newEvt>
+        <newEvt id="editTask" :d="selectedEditing" v-if="editEvt"></newEvt>
         
     </div>
 </template>
@@ -15,6 +24,7 @@
 
 import calendar from '../widgets/calendar'
 import timetable from '../widgets/timetable'
+import newEvt from '../newEvt'
 
 import { EventBus } from '../../bus'
 
@@ -26,18 +36,48 @@ export default {
     name: "home",
     components:{
         calendar,
-        timetable
+        timetable,
+        newEvt
     },
     data(){
         return{
+            api_customCal: '/personalView',
+            api_delEvt: '/personalDelete',
+            selectedDate: false,
             allTTData: [],
             currentEvtArr: [],
             currentView: "week",
             hasUpdated: false,
+            newEvt: false,
+            editEvt: false,
+            selectedEditing: {}
         }
     },
     created(){
         EventBus.$emit("showSidebar", true)
+
+        // Close window
+        EventBus.$on("popup-close", ()=>{
+            this.newEvt = false
+            this.editEvt = false
+            this.selectedEditing = {}
+        })
+
+        // Add Event Finished
+        EventBus.$on("evt-up", ()=>{
+            this.getData()
+        })
+
+        EventBus.$on("tt-detail-edit", (res) => {
+            this.selectedEditing = res
+            this.$nextTick(()=>{
+                this.editEvt = true
+            })
+        })
+
+        EventBus.$on("tt-detail-del", (res) => {
+            this.delete(res)
+        })
 
         if(!ls.get("login_name") && !ls.get("login_token")){
             this.$router.push('login')
@@ -68,15 +108,25 @@ export default {
             ls.remove("to_join")
         }
 
-        this.allTTData = ls.get("data_tt")
-
-        this.renderDayEvt()
-
+        this.getData()
 
 
     },
     methods:{
+
+        getData(){
+            this.allTTData = ls.get("data_tt")
+
+            //this.renderDayEvt(this.selectedDate)
+            console.log(this.selectedDate)
+
+            this.concatWeTeamCal(ls.get("login_uuid"))
+        },
+
+
         renderDayEvt (date) {
+
+            console.log(date)
 
             var that = this
 
@@ -86,13 +136,14 @@ export default {
             //const expire = 0
             
             if(!date){
-                var tod = new Date()
+                let tod = new Date()
                 date = { day: tod.getDate(), month: tod.getMonth() + 1, week: tod.getDay(), year: tod.getFullYear() }
+            } else {
+                // Save current selected date
+                this.selectedDate = date
             }
             
-            var evtData = this.getEvt(date)
-
-            console.log(evtData)
+            let evtData = this.getEvt(date)
 
             if (evtData.status){
                 this.currentEvtArr = evtData.data
@@ -107,6 +158,33 @@ export default {
             }*/
         },
 
+        // Get calendar added from WeTeam(personal timetable), push it to the main tt data 
+        concatWeTeamCal(uuid){
+            const postReady = [
+                {
+                    name: "uuid",
+                    val: uuid
+                },
+            ]
+
+            request.get(this.api_customCal, postReady, (res)=>{
+                // Save persona timetable
+                let pTT = res.data.data
+
+                // Add Unique Marker
+                for(let i=0;i<pTT.length;i++){
+                    pTT[i].isCustom = true
+                }
+
+                // Merge 2 array
+                this.allTTData = this.allTTData.concat(pTT)
+
+                // Re-render
+                this.renderDayEvt(this.selectedDate)
+            })
+        },
+
+        // Get Evts according to selected date
         getEvt(sDate){
 
             // Get data from local storage
@@ -148,6 +226,20 @@ export default {
 
                 return { status: false, count: 0, data: "no timetable data"  }
             }
+        },
+
+        delete(item){
+            const postReady = {
+                id: item.id,
+                uuid: ls.get("login_uuid")
+            }
+
+            request.post(this.api_delEvt, postReady, (res)=>{
+                if(res.status){
+                    this.getData()
+                    EventBus.$emit("tt-close-detail", true)
+                }
+            })
         },
 
         /**

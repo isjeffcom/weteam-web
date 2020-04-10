@@ -64,7 +64,7 @@
 <script>
 import calendar from '../widgets/calendar'
 import timetable from '../widgets/timetable'
-import groupTasks from '../GroupTask'
+import groupTasks from '../taskList'
 
 const util = require('../../support/util')
 const request = require('../../request')
@@ -77,6 +77,7 @@ export default {
         timetable,
         groupTasks
     },
+
     data(){
         return{
             current: 0,
@@ -93,6 +94,7 @@ export default {
     },
 
     created(){
+
         this.gid = this.$route.query.id
         this.gname = this.$route.query.name
         this.gcode = this.$route.query.code

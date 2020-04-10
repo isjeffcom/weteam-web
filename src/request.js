@@ -1,3 +1,9 @@
+/*
+This is a basic utilties function class for making HTTP Request
+from APIs and response all data to a callback
+*/
+
+
 const axios = require('axios')
 const qs = require('qs')
 
@@ -35,8 +41,6 @@ function post(api, data, callback){
 function get (api, param, callback) {
 
     api = base_url + api
-    //alert(param)
-    //alert(contParam(api, param))
     
   axios.get(contParam(api, param)).then((response) => {
 

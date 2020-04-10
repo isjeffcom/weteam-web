@@ -58,7 +58,7 @@ export default {
           {
               icon: "./assets/icons/i_tasks.svg",
               icon_selected: "./assets/icons/i_tasks_s.svg",
-              routerName: "task",
+              routerName: "GroupTask",
               name: "Tasks"
           }
       ]
@@ -74,7 +74,7 @@ export default {
           this.titlebarColor = "black"
         }
 
-      },
+      }
     }
   },
 
@@ -153,10 +153,43 @@ button:active{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
+  color: #494E59;
 }
 
 .el-button{
   border-radius: 0px !important;
+}
+
+.floating-btn{
+  position: fixed;
+  height: 60px;
+  width: 60px;
+  bottom: 40px;
+  right: 30px;
+  background: #0277F9;
+  color: #fff;
+  box-shadow: 0px 4px 8px rgba(2, 119, 249, 0.3);
+  border-radius: 100px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.floating-btn:hover{
+  background: #1B87FF;
+  box-shadow: 0px 12px 10px rgba(2, 119, 249, 0.8);
+}
+
+.floating-btn-inner{
+  width:100%;
+  height: 100%;
+  text-align: center;
+  margin-top: 17px;
+}
+
+.floating-btn-inner img{
+  width: 25px;
+  height: 25px;
 }
 
 #main-cont{
@@ -199,7 +232,7 @@ button:active{
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.7);
-  z-index: 99998;
+  z-index: 98;
 }
 
 .popup-cont{
@@ -207,12 +240,13 @@ button:active{
   top: 0px;
   left: 0px;
   width: 100%;
-  z-index: 99999;
+  z-index: 99;
 }
 
 .popup-inner{
   top: 50%;
-  transform: translateY(50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   margin-left: auto;
   margin-right: auto;
   width: 410px;
@@ -221,7 +255,7 @@ button:active{
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
   border-radius: 14px;
   border: 1px solid rgba(0,0,0,0.05);
-  z-index: 99999;
+  z-index: 99;
 }
 
 .user-widget{

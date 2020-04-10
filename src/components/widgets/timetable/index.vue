@@ -47,12 +47,6 @@
                                 <span v-if="evt.hide">**</span>
                             </div>
 
-                            <!--div class="tt-evts-single-name" v-if="item.child.length < 3">
-                                <span v-if="evt.hide">**</span>
-                                <span> {{ setName(evt.name, evt.size.height) }} </span>
-                                <span v-if="evt.hide">**</span>
-                            </div-->
-
                             <div class="tt-evts-single-name" v-if="item.child.length >= 3 && evtIdx == 0">
                                 <span>{{ item.child.length }} Events</span>
                             </div>
@@ -107,29 +101,30 @@
 
             
             <div class="tt-evts-detail-inner" id="tt-evts-detail-inner">
-            <!-- Detail Popup Title Area for Name and BG -->
-            <div class="tt-evts-detail-title" :style="'background: ' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid) : setColor())">
-                <!-- Person who attend this event with avatar and name -->
-                <div class="tt-evts-detail-title-user tt-evt-switch-ani" :style="'display: flex; opacity:' + tt_evt_switch.opa + ';'" v-if="hMems">
-                    <div class="avatar" v-if="currentInfo.length > 0">
-                        <image :src="currentInfo[currentInfoIndex].uimg" style="width: 50px; height:50px;"></image>
+                <!-- Detail Popup Title Area for Name and BG -->
+                <div class="tt-evts-detail-title" :style="'background: ' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid) : setColor())">
+                    <!-- Person who attend this event with avatar and name -->
+                    <div class="tt-evts-detail-title-user tt-evt-switch-ani" :style="'display: flex; opacity:' + tt_evt_switch.opa + ';'" v-if="hMems">
+                        <div class="avatar" v-if="currentInfo.length > 0">
+                            <image :src="currentInfo[currentInfoIndex].uimg" style="width: 50px; height:50px;"></image>
+                        </div>
+                        
+                        <span class="avatar-text">{{currentInfo[currentInfoIndex].uname}} \n</span>
                     </div>
-                    
-                    <span class="avatar-text">{{currentInfo[currentInfoIndex].uname}} \n</span>
+
+                    <div class="tt-evts-detail-title-text tt-evt-switch-ani" :style="'opacity:' + tt_evt_switch.opa + ';'">{{ limitName(currentInfo[currentInfoIndex].name, 80) }}</div>
                 </div>
 
-                <div class="tt-evts-detail-title-text tt-evt-switch-ani" :style="'opacity:' + tt_evt_switch.opa + ';'">{{ limitName(currentInfo[currentInfoIndex].name, 80) }}</div>
-            </div>
+                <!-- Detail Popup Window Content -->
+                <div class="tt-evts-detail-content tt-evt-switch-ani" :style="'opacity:' + tt_evt_switch.opa + ';'">
+                    <span class="tt-evts-detail-c-s">Start: {{currentInfo[currentInfoIndex].start}}</span> <br>
+                    <span class="tt-evts-detail-c-s">End: {{currentInfo[currentInfoIndex].end}}</span> <br>
+                    <span class="tt-evts-detail-c-s">Location: {{currentInfo[currentInfoIndex].location}}</span> <br>
+                    <span v-if="currentInfo[currentInfoIndex].hide" style="opacity: 0.5;font-size: 14px;">用户开启隐私保护，不显示名称地点</span>
+                </div>
 
-            <!-- Detail Popup Window Content -->
-            <div class="tt-evts-detail-content tt-evt-switch-ani" :style="'opacity:' + tt_evt_switch.opa + ';'">
-                <span class="tt-evts-detail-c-s">Start: {{currentInfo[currentInfoIndex].start}}</span> <br>
-                <span class="tt-evts-detail-c-s">End: {{currentInfo[currentInfoIndex].end}}</span> <br>
-                <span class="tt-evts-detail-c-s">Location: {{currentInfo[currentInfoIndex].location}}</span> <br>
-                <span v-if="currentInfo[currentInfoIndex].hide" style="opacity: 0.5;font-size: 14px;">用户开启隐私保护，不显示名称地点</span>
-            </div>
-
-
+                <button v-if="currentInfo[currentInfoIndex].isCustom" v-on:click="toEdit(currentInfo[currentInfoIndex])">EDIT</button>
+                <button v-if="currentInfo[currentInfoIndex].isCustom" v-on:click="toDel(currentInfo[currentInfoIndex])" style="background:#F24C4C;">DELETE</button>
 
             </div>
 
@@ -167,6 +162,7 @@
 
 
 <script>
+import { EventBus } from '../../../bus'
 
 const timeProcessing = require('../../../support/time')
 
@@ -214,32 +210,7 @@ export default {
             },
             tt_evt_switch:{
                 opa: 1
-            },
-            /*events: [
-                {
-                    allDay: false,
-                    end: "2020-02-27,13:0:0",
-                    endTS: "1582808400000",
-                    endTime: "13:0:0",
-                    location: "G.10, Alison House",
-                    name: "Lecture Digital Media Studio Project - Lecture",
-                    start: "2020-02-27,10:0:0",
-                    startTS: "1582797600000",
-                    startTime: "10:0:0"
-                },
-                {
-                    allDay: false,
-                    end: "2020-02-27,16:0:0",
-                    endTS: "1582819200000",
-                    endTime: "16:0:0",
-                    location: "G.10, Alison House",
-                    name: "Tutorial Dynamic Web Design - Lecture",
-                    start: "2020-02-27,14:0:0",
-                    startTS: "1582812000000",
-                    startTime: "14:0:0"
-                }
-            
-            ]*/
+            }
         }
     },
 
@@ -275,6 +246,14 @@ export default {
 
         this.positionToTimeSlot()
         this.renderEvts(this.events)
+
+        EventBus.$on("popup-close", ()=>{
+            this.closeDetail()
+        })
+
+        EventBus.$on("tt-close-detail", ()=>{
+             this.closeDetail()
+         })
     
     },
 
@@ -305,13 +284,6 @@ export default {
 
                 this.tt_evts_single.opa = 1
 
-                /*this.animate('.tt-evts-single', [
-                    { opacity: 0, offset: 1, ease: "ease-in-out" },
-                    { opacity: 1, offset: 1, ease: "ease-in-out" },
-                ], 600, function () {
-                    this.clearAnimation('.tt-evts-single', {}, function () {
-                })
-                }.bind(this))*/
             }
         },
 
@@ -344,8 +316,6 @@ export default {
             const now = new Date();
             const hour = now.getHours()
             const minute = now.getMinutes()
-            //var hour = 10
-            //var minute = 0
             const line = timeProcessing.timeToSize(hour+":"+minute, hour+":"+minute, this.slotHeight)
             line.height = 1
 
@@ -357,8 +327,6 @@ export default {
         openDetail(val){
 
             var data = val
-
-            //const aniSpeed = this.aniSpeed
 
             if(!Array.isArray(data)){
                 data = [val]
@@ -373,52 +341,12 @@ export default {
             this.tt_evts_detail.scale = "(1,1)"
 
             this.tt_cover.opa = 1
-
-
-            /*this.animate('#tt-evts-detail', [
-                { opacity: 0,  bottom: "-2000px", ease: "ease-in-out" },
-                { opacity: 1, scale: [0.96, 0.96], bottom: "0px", ease: "ease-in-out" },
-                { scale: [1, 1], ease: "ease-in-out" },
-            ], aniSpeed, function () {
-                this.clearAnimation('#tt-evts-detail', { }, function () {
-
-                })
-            }.bind(this))
-
-            this.animate('#tt-cover', [
-                { opacity: 0, ease: "ease-in-out" },
-                { opacity: 1, ease: "ease-in-out" },
-            ], aniSpeed, function () {
-                this.clearAnimation('#tt-cover', {}, function () {
-
-                })
-            }.bind(this))*/
         
 
         },
 
         closeDetail(){
             
-            //const aniSpeed = this.aniSpeed
-            /*this.animate('#tt-evts-detail', [
-                { scale: [1, 1], ease: "ease-in-out" },
-                { opacity: 1, scale: [0.96, 0.96], bottom: "0px", ease: "ease-in-out" },
-                { opacity: 0, bottom: "-2000px", ease: "ease-in-out" },
-            ], aniSpeed, function () {
-                this.clearAnimation('#tt-evts-detail', {}, function () {
-
-                })
-            }.bind(this))
-
-            this.animate('#tt-cover', [
-                { opacity: 1, ease: "ease-in-out" },
-                { opacity: 0, ease: "ease-in-out" },
-            ], aniSpeed, function () {
-                this.clearAnimation('#tt-cover', {}, function () {
-                
-                })
-            }.bind(this))*/
-
             this.tt_evts_detail.scale = "(0.96,0.96)"
             this.tt_evts_detail.bottom = -2000
             this.tt_evts_detail.opa = 0
@@ -459,16 +387,6 @@ export default {
         evtSwitchAni () {
 
             this.tt_evt_switch.opa = 1
-
-        
-            /*this.animate('.tt-evt-switch-ani', [
-                { opacity: 0, ease: "ease-in-out" },
-                { opacity: 1, ease: "ease-in-out" },
-            ], 160, function () {
-                this.clearAnimation('#tt-evts-detail', {}, function () {
-
-                })
-            }.bind(this))*/
         },
 
         positionToTimeSlot () {
@@ -493,10 +411,6 @@ export default {
                 posi = 18 * this.slotHeight
             }
 
-            /*scrollTo(0, posi, {
-                ease: 'out-bounce',
-                duration: 1500
-            });*/
 
             var VueScrollTo = require('vue-scrollto');
  
@@ -505,15 +419,6 @@ export default {
                 easing: 'ease-in',
                 offset: -100,
                 force: true,
-                /*onStart: function(element) {
-                // scrolling started
-                },
-                onDone: function(element) {
-                // scrolling is done
-                },
-                onCancel: function() {
-                // scrolling has been interrupted
-                },*/
                 x: false,
                 y: true
             }
@@ -585,7 +490,14 @@ export default {
                 var tl = Math.ceil(str.length / 28)
                 return 18 * (tl + 1)
             }
-        }
+        },
+        toEdit(item){
+            EventBus.$emit("tt-detail-edit", item)
+        },
+
+        toDel(item){
+            EventBus.$emit("tt-detail-del", item)
+        },
     }
 }
 </script>
@@ -609,7 +521,7 @@ export default {
   background: rgba(0,0,0,0.6);
   width: 100%;
   height: 100%;
-  z-index: 9998;
+  z-index: 96;
   overflow: hidden;
   top: 0px;
   opacity: 0;
@@ -675,11 +587,18 @@ export default {
 }
 
 .tt-evts-single-slot{
-  position: absolute;
-  width: 90%;
-  left: 0px;
-  font-size: 12px;
-  border-radius: 2px;
+    position: absolute;
+    width: 90%;
+    left: 0px;
+    font-size: 12px;
+    border-radius: 2px;
+    border: 4px solid rgba(0,0,0,0);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    cursor: pointer;
+}
+
+.tt-evts-single-slot:hover{
+    border: 4px solid rgba(0,0,0,0.3);
 }
 
 .tt-evts-current-text{
@@ -701,7 +620,7 @@ export default {
   position: fixed;
   bottom: -2000px;
   width: 100%;
-  z-index: 9999;
+  z-index: 97;
   transition: all 2s cubic-bezier(.25,.8,.25,1);
 }
 
@@ -709,7 +628,7 @@ export default {
   position: absolute;
   bottom: 0px;
   left: 0px;
-  height: 420px;
+  height: 540px;
   width: 100%;
   background: rgba(255,255,255,1);
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);

@@ -10,6 +10,12 @@
                     <span>New Task</span>
                 </div>
 
+                <div class="popup-s popup-select" v-if="mode == 'new'">
+                    <select v-model="setGid" :disabled="gid != 'null'">
+                        <option v-for="item in allGroups" :key="item.id" :value="item.id">{{ item.name }}</option>
+                    </select>
+                </div>
+
                 <div class="popup-s popup-input">
                     <input id="taskName" type="text" v-model="taskName" placeholder="Description">
                 </div>
@@ -45,6 +51,7 @@
 
                 <div class="popup-submit">
                     <button v-on:click="mode == 'new' ? addNew() : editTask()">SUBMIT</button>
+                    <button v-on:click="deleteTask()" v-if="mode == 'edit'" style="background:#F24C4C;">DELETE</button>
                 </div>
                 
             </div>
@@ -59,6 +66,8 @@
 import { EventBus } from '../../bus'
 import Datepicker from 'vuejs-datepicker'
 
+import { checkFilled } from '../../util'
+
 const request = require('../../request')
 const ls = require('local-storage')
 
@@ -72,7 +81,7 @@ export default {
     props:{
         gid: {
             type: String,
-            default: "15"
+            default: "null"
         },
 
         d: {
@@ -84,9 +93,16 @@ export default {
     data(){
         return{
             mode: "new",
+            api_glist: "/group",
+            api_edit: "/editTask",
+            api_add: "/addMyTask",
+            api_del: "/deleteTask",
+            setGid: null,
+            allGroups: [],
             addDue: false,
             addLabel: false,
-            userId: 16,
+            userId: null,
+            taskGid: null,
             taskId: "",
             taskName:"",
             taskStart:"",
@@ -108,9 +124,11 @@ export default {
 
     created(){
 
+        
         this.userId = ls.get("login_uuid")
 
         if(this.d){
+
             this.mode = "edit"
             this.taskId = this.d.id
             this.taskName = this.d.des
@@ -123,26 +141,41 @@ export default {
             this.addLabel = this.selectedLabel.indexOf("#") == -1 ? false : true
             this.addDue = this.d.endDate == "0000-00-00" ? false : true
 
+            this.setGid = this.gid
+
+            
+
         } else {
+
             this.mode = "new"
+
+            if(this.gid != "null"){
+                this.setGid = this.gid
+            }
+
+            this.getAllGroups()
+
         }
     },
 
     methods:{
         addNew(){
+
             const postReady = {
                 uid: this.userId,
-                gid: this.gid,
+                gid: this.setGid,
                 taskName: this.taskName,
                 taskStart: this.taskStart,
                 taskEnd: this.taskEnd,
-                taskColor: this.selectedLabel == "" ? "null" : this.selectLabel,
+                taskColor: this.selectedLabel == "" ? "null" : this.selectedLabel,
             }
 
-            console.log(postReady)
+            if(!checkFilled(postReady, ["taskStart", "taskEnd"])){
+                alert("Please fill task description and/or select a group")
+                return
+            }
 
-            request.post('/addMyTask', postReady, (res)=>{
-                console.log(res)
+            request.post(this.api_add, postReady, (res)=>{
                 if(res.status){
                     EventBus.$emit("task-added", true)
                     this.$nextTick(()=>{
@@ -154,30 +187,63 @@ export default {
         },
 
         editTask(){
-            const postReady = {
-                    uid: this.userId,
-                    taskId: this.taskId,
-                    gid: this.gid,
-                    taskName: this.taskName,
-                    taskStart: this.taskStart,
-                    taskEnd: this.taskEnd,
-                    taskMembers: this.taskMembers,
-                    taskColor: this.selectedLabel,
-                    taskState: this.taskState
-                }
 
-                request.post('/editTask', postReady, (res)=>{
-                    if(res.status){
-                        EventBus.$emit("task-added", true)
-                        this.$nextTick(()=>{
-                            this.close()
-                        })
-                    }
-                })
+            const postReady = {
+                uid: this.userId,
+                taskId: this.taskId,
+                gid: this.setGid,
+                taskName: this.taskName,
+                taskStart: this.taskStart,
+                taskEnd: this.taskEnd,
+                taskMembers: this.taskMembers,
+                taskColor: this.selectedLabel == "" ? "null" : this.selectedLabel,
+                taskState: this.taskState
+            }
+
+            request.post(this.api_edit, postReady, (res)=>{
+                if(res.status){
+                    EventBus.$emit("task-added", true)
+                    this.$nextTick(()=>{
+                        this.close()
+                    })
+                }
+            })
+        },
+
+        deleteTask(){
+            const postReady = {
+                uid: this.userId,
+                gid: this.setGid,
+                taskId: this.taskId,
+            }
+
+            request.post(this.api_del, postReady, (res)=>{
+                if(res.status){
+                    EventBus.$emit("task-added", true)
+                    this.$nextTick(()=>{
+                        this.close()
+                    })
+                }
+            })
         },
 
         selectLabel(val){
-            this.selectedLabel = val
+            this.selectedLabel = String(val)
+        },
+
+        getAllGroups(){
+
+            const postReady = [
+                {
+                    name: "id",
+                    val: this.userId
+                }
+            ]
+
+            request.get(this.api_glist, postReady, (res)=>{
+                this.allGroups = res.data.data
+            })
+
         },
 
         close(){
@@ -203,6 +269,7 @@ export default {
 
 
 .popup-inner{
+    position: fixed;
     padding: 24px;
 }
 
