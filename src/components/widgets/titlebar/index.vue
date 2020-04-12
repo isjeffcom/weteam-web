@@ -34,7 +34,7 @@
 
 <script>
 
-import util from '../../../support/util'
+import { logout } from '../../../support/util'
 
 export default {
     name: "titlebar",
@@ -66,7 +66,7 @@ export default {
 
     methods:{
         signout(){
-            util.logout()
+            logout()
             this.$router.push('login')
         }
     }

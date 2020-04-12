@@ -17,7 +17,6 @@
 
         <div class="created-group-bigger">
             <span>Group Created</span>
-                    
         </div> 
 
         <div class="created-invite-way">

@@ -66,7 +66,7 @@
 import { EventBus } from '../../bus'
 import Datepicker from 'vuejs-datepicker'
 
-import { checkFilled } from '../../util'
+import { checkFilled } from '../../support/util'
 
 const request = require('../../request')
 const ls = require('local-storage')

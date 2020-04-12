@@ -1,6 +1,7 @@
-const ls = require('local-storage');
 
-function allToInt(arr) {
+import ls from 'local-storage'
+
+export function allToInt(arr) {
     var res = []
     for (var i = 0; i < arr.length; i++) {
       res[i] = parseInt(arr[i])
@@ -9,7 +10,7 @@ function allToInt(arr) {
     return res
 }
 
-function whereInArr(target, arr){
+export function whereInArr(target, arr){
   
   for(var i=0;i<arr.length;i++){
     if(target == arr[i]){
@@ -19,13 +20,13 @@ function whereInArr(target, arr){
   return false
 }
 
-function ifSingleAddZero (tar) {
+export function ifSingleAddZero (tar) {
   tar = String(tar)
   tar = tar.length == 1 ? "0" + tar : tar
   return tar
 }
 
-function timeEvtMatcher (target, obj) {
+export function timeEvtMatcher (target, obj) {
 
   // Target is sth. like "2020-04-23"
   var arr = []
@@ -44,14 +45,28 @@ function timeEvtMatcher (target, obj) {
   return arr
 }
 
-function logout(){
+export function logout(){
   ls.clear()
 }
 
-module.exports = {
-    allToInt: allToInt,
-    whereInArr: whereInArr,
-    ifSingleAddZero: ifSingleAddZero,
-    timeEvtMatcher: timeEvtMatcher,
-    logout: logout
+// Check all thing in object is filled, notice dont check !el as it could be false
+export function checkFilled(obj, exception){
+    
+  // Allow exception
+  exception = exception ? exception : []
+
+  let res = true
+
+  for (const prop in obj) {
+      let el = obj[prop]
+
+      if(exception.indexOf(prop) == -1){
+          if(el == "" && el == null && el == undefined && typeof el == undefined){
+              res = false
+          }
+      }
+  }
+
+  return true
 }
+

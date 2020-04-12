@@ -32,7 +32,7 @@
             </div>
 
             <div id="group-calendar">
-                <calendar initView="week" selectedColor="#0277F9" v-on:day="afterTapDay"></calendar>
+                <calendar initView="week" selectedColor="linear-gradient(38.77deg, #C3BCF1 0%, #5756B3 100%)" v-on:day="afterTapDay"></calendar>
             </div>
 
             <div id="group-timetable">
@@ -66,9 +66,10 @@ import calendar from '../widgets/calendar'
 import timetable from '../widgets/timetable'
 import groupTasks from '../taskList'
 
-const util = require('../../support/util')
+import ls from 'local-storage'
+import { ifSingleAddZero, timeEvtMatcher  } from '../../support/util'
 const request = require('../../request')
-const ls = require('local-storage')
+
 
 export default {
     name: "groupdetail",
@@ -147,10 +148,10 @@ export default {
             }
 
             // combine query string
-            var tar = sDate.year + "-" + util.ifSingleAddZero(sDate.month) + "-" + sDate.day
+            var tar = sDate.year + "-" + ifSingleAddZero(sDate.month) + "-" + sDate.day
 
             // excute matcher
-            var res = util.timeEvtMatcher(tar, tt)
+            var res = timeEvtMatcher(tar, tt)
 
             // Return
             return { status: true, count: res.length, data: res }

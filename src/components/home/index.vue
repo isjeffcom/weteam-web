@@ -30,7 +30,7 @@ import { EventBus } from '../../bus'
 
 import ls from 'local-storage'
 import request from '../../request'
-import util from '../../support/util'
+import {ifSingleAddZero, timeEvtMatcher} from '../../support/util'
 
 export default {
     name: "home",
@@ -200,10 +200,10 @@ export default {
                 }
 
                 // combine query string
-                var tar = sDate.year + "-" + util.ifSingleAddZero(sDate.month) + "-" + sDate.day
+                var tar = sDate.year + "-" + ifSingleAddZero(sDate.month) + "-" + sDate.day
 
                 // excute matcher
-                var res = util.timeEvtMatcher(tar, tt)
+                var res = timeEvtMatcher(tar, tt)
 
                 // Return
                 return { status: true, count: res.length, data: res }
