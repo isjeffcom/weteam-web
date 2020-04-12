@@ -1,5 +1,5 @@
 <template>
-    <div id="titlebar" :style="'position:' + posi + ';'">
+    <div id="titlebar" :style="'position:' + posi + ';'" v-if="tbShow">
 
         <div id="titlebar-right">
 
@@ -28,6 +28,7 @@
 <script>
 
 import { logout } from '../../../support/util'
+import ls from 'local-storage'
 
 export default {
     name: "titlebar",
@@ -50,6 +51,7 @@ export default {
     data(){
         return{
             menu: false,
+            tbShow: true,
         }
     },
 
@@ -60,6 +62,10 @@ export default {
             }
             
         })
+
+        if(!ls.get('login_snum')){
+            this.tbShow = false
+        }
     },
 
     methods:{

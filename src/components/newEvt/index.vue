@@ -57,7 +57,7 @@
 
 import { EventBus } from '../../bus'
 
-import { checkFilled } from '../../util'
+import { checkFilled } from '../../support/util'
 
 import Datepicker from 'vuejs-datepicker'
 
@@ -121,7 +121,7 @@ export default {
             let dateReady = this.dateFormatter(this.evtDate)
             
             // Check every thing filled
-            if(this.name.length < 1 || this.location.length < 1 || this.evtDate.length < 1){
+            if(this.name.length < 1 || this.location.length < 1 || this.endTime.length < 1 || this.evtDate.length < 1){
                 alert("please fill in")
                 return
             }

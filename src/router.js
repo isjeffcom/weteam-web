@@ -15,6 +15,7 @@ import groupDetail from './components/groupDetail'
 import newGroup from './components/newGroup'
 import groupManager from './components/groupManager'
 import GroupTask from './components/taskList'
+import settings from './components/settings'
 //import GroupNewTask from './components/GroupNewTask'
 //import personal from './components/personal'
 
@@ -35,6 +36,7 @@ export default new VueRouter({
       { path: '/newGroup', name: 'newGroup', component: newGroup },
       { path: '/groupManager', name: 'groupManager', component: groupManager },
       { path: '/GroupTask', name: 'GroupTask', component: GroupTask },
+      { path: '/settings', name: 'settings', component: settings },
       //{ path: '/GroupNewTask', name: 'GroupNewTask', component: GroupNewTask },
       //{ path: '/personal', name: 'personal', component: personal},
     ]

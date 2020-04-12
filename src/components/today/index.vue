@@ -14,7 +14,7 @@
 
             <div class="today-row">
                 <div class="today-m-s">
-                    <user></user>
+                    <user :email="uemail" :name="uname"></user>
                 </div>
 
                 <div class="today-m-s"  :style="'animation-delay: 0.1s;'">
@@ -75,6 +75,8 @@ import teammates from '../todaywidgets/teammates'
 import workload from '../todaywidgets/workload'
 import assist from '../todaywidgets/assist'
 
+import ls from 'local-storage'
+
 export default {
     name: "today",
     components:{
@@ -90,7 +92,13 @@ export default {
     },
     data(){
         return{
+            uemail: "",
+            uname: ""
         }
+    },
+    created(){
+        this.uemail = ls.get("login_snum")
+        this.uname = ls.get("data_n")
     },
     methods:{
         todayDate(){

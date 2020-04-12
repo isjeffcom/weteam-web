@@ -59,7 +59,7 @@
                                 <span>{{ item.d }}</span>
                             </div>
 
-                            <div class="calendar-slot-selected" :style="'background:' + selectedColor + ';box-shadow:' + selectedShadow"></div>
+                            <div class="calendar-slot-selected" :style="'background:' + selectedColor + ';box-shadow:' + selectedShadow + ';height: 30px; margin-top: -25px;'"></div>
                         
                         </div>
 

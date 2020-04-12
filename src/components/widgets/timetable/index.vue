@@ -22,60 +22,66 @@
 
                     <!-- Get All Sorted Events -->
                     <div 
-                    class="tt-evts-single"
+                    class="tt-evts-single cc"
                     :style="'opacity:' + tt_evts_single.opa"
                     v-for="(item,idx) in innerEvts" 
                     :key="idx">
 
-                        <!-- Get Events in the same time slot -->
-                        <div 
-                        class="tt-evts-single-slot"
-                        v-for="(evt, evtIdx) in item.child "
-                        v-on:click="openDetail(evt)"
-                        :key="evtIdx"
-                        :style="'top: ' + evt.size.top + 'px; height:' + evt.size.height + 'px; width: calc(80%/' + item.child.length + '); left: ' + (evtIdx * ((screenWidth / item.child.length + 1) - 40)) + 'px; background: ' + (hMems ? setColor(evt.uuid, 'bg') : setColor())  + ';border-top: 4px solid ' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid, 'border') : setColor(0, 'border'))">
-
-                        <!-- Event Time Slot -->
-                        <!--div class="tt-evts-single-time">
-                            <span>{{evt.startTime}} - {{evt.endTime}}</span>
-                        </div-->
-
-                            <!-- Event Name -->
-                            <div class="tt-evts-single-name" :style="'color:' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid, 'border') : setColor(0, 'border'))">
-                                <span v-if="evt.hide">**</span>
-                                <span> {{ setName(evt.name, evt.size.height)}} </span>
-                                <span v-if="evt.hide">**</span>
-                            </div>
-
-                            <div class="tt-evts-single-name" v-if="item.child.length >= 3 && evtIdx == 0">
-                                <span>{{ item.child.length }} Events</span>
-                            </div>
-
-                            <!-- User Avatar -->
-                            <div class="tt-evts-single-uimg" v-if="hMems && evt.uimg != null">
-                                <div class="avatar tt-evts-single-uimg-inner" >
-                                <image 
-                                    class="tt-evts-single-uimg-img" 
-                                    :src="evt.uimg">
-                                </image>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- IF TOO MANY EVENTS -->
-                        <!--div v-if="item.child.length >= 2 && evtIdx == 0">
+                        <div v-if="item.child.length >= 4">
                             <div 
                             class="tt-evts-single-slot"
                             v-on:click="openDetail(item.child)"
                             v-for="(evt, evtIdx) in item.child" 
                             :key="evtIdx"
-                            :style="'top: ' + evt.size.top + 'px; height:' + evt.size.height + 'px; background:' + getEvtsColor(evt.uuid ? evt.uuid : 0  ) + ';'"-->
+                            :style="'top: ' + evt.size.top + 'px; height:' + evt.size.height + 'px; background:' + getEvtsColor(evt.uuid ? evt.uuid : 0  ) + ';'">
                             <!-- Events Count Number -->
-                                <!--div class="tt-evts-single-name">
+                                <div class="tt-evts-single-name">
                                     <span>{{ item.child.length }} Events</span>
                                 </div>
                             </div>
-                        </div-->
+                        </div>
+
+                        <div v-else>
+                            <!-- Get Events in the same time slot -->
+                            <div 
+                            class="tt-evts-single-slot"
+                            v-for="(evt, evtIdx) in item.child "
+                            v-on:click="openDetail(evt)"
+                            :key="evtIdx"
+                            :style="'top: ' + evt.size.top + 'px; height:' + (evt.size.height - 8) + 'px; width: calc(50%/' + item.child.length + '); left: ' + (evtIdx * (((screenWidth * 0.8) / item.child.length + 1))- 120) + 'px; background: ' + (hMems ? setColor(evt.uuid, 'bg') : setColor())  + ';border-top: 4px solid ' + (hMems ? setColor(evt.uuid, 'border') : setColor(0, 'border')) + ';color:' + (hMems ? setColor(evt.uuid, 'border') : setColor(0, 'border'))">
+
+                            <!-- Event Time Slot -->
+                            <!--div class="tt-evts-single-time">
+                                <span>{{evt.startTime}} - {{evt.endTime}}</span>
+                            </div-->
+
+                                <!-- Event Name -->
+                                <div class="tt-evts-single-name">
+                                    <span v-if="evt.hide">**</span>
+                                    <span> {{ setName(evt.name, evt.size.height)}} </span>
+                                </div>
+
+                                <!--div class="tt-evts-single-name" v-if="item.child.length >= 3 && evtIdx == 0">
+                                    <span>{{ item.child.length }} Events</span>
+                                </div-->
+
+                                <div class="tt-evts-location">
+                                    <span>{{ evt.location }}</span>
+                                </div>
+
+                                <!-- User Avatar -->
+                                <!--div class="tt-evts-single-uimg">
+                                    <div class="avatar tt-evts-single-uimg-inner" >
+                                        <img 
+                                            class="tt-evts-single-uimg-img" 
+                                            :src="evt.uimg">
+
+                                            
+                                    </div>
+                                </div-->
+                            </div>
+                        </div>
                        
                     
                     </div>
@@ -105,11 +111,8 @@
                 <div class="tt-evts-detail-title" :style="'background: ' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid, 'bg') : setColor()) + ';border-top: 4px solid ' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid, 'border') : setColor(0, 'border'))">
                     <!-- Person who attend this event with avatar and name -->
                     <div class="tt-evts-detail-title-user tt-evt-switch-ani" :style="'display: flex; opacity:' + tt_evt_switch.opa + ';'" v-if="hMems">
-                        <div class="avatar" v-if="currentInfo.length > 0">
-                            <image :src="currentInfo[currentInfoIndex].uimg" style="width: 50px; height:50px;"></image>
-                        </div>
                         
-                        <span class="avatar-text">{{currentInfo[currentInfoIndex].uname}} \n</span>
+                        <span class="avatar-text">{{currentInfo[currentInfoIndex].userName}}</span>
                     </div>
 
                     <div class="tt-evts-detail-title-text tt-evt-switch-ani" :style="'opacity:' + tt_evt_switch.opa + ';'">{{ limitName(currentInfo[currentInfoIndex].name, 80) }}</div>
@@ -133,15 +136,15 @@
                 <div class="tt-evts-d-c-inner">
                     <!-- Left -->
                     <div class="tt-evts-detail-c tt-evts-detail-c-left" v-on:click="lastEvt">
-                        <div class="tt-evts-detail-c-icon" :style="'opacity: ' + currentInfoIndex == 0 ? 0.3 : 1">
-                            <image class="tt-evts-detail-c-icon-img" src="./assets/left.svg"></image>
+                        <div class="tt-evts-detail-c-icon" :style="'opacity: ' + (currentInfoIndex == 0 ? 0.3 : 0.7)">
+                            <img class="tt-evts-detail-c-icon-img" src="../../../assets/left.svg">
                         </div>
                     </div>
 
                     <!-- Right -->
                     <div class="tt-evts-detail-c tt-evts-detail-c-right" v-on:click="nextEvt">
-                        <div class="tt-evts-detail-c-icon" :style="'transform: rotate(180deg); opacity: ' + currentInfoIndex == currentInfo.length-1 ? 0.3 : 1">
-                            <image class="tt-evts-detail-c-icon-img" src="./assets/left.svg"></image>
+                        <div class="tt-evts-detail-c-icon" :style="'transform: rotate(180deg); opacity: ' + (currentInfoIndex == currentInfo.length-1 ? 0.3 : 0.7)">
+                            <img class="tt-evts-detail-c-icon-img" src="../../../assets/left.svg">
                         </div>
                     </div>
                 </div>
@@ -241,8 +244,9 @@ export default {
         }, 60 * 1000)
 
 
-        this.hMems = this.hasMems == "f" ? false : true,
-        this.screenWidth = (window.innerWidth * 0.7),
+        this.hMems = this.hasMems == "f" ? false : true
+        console.log(this.hMems)
+        this.screenWidth = (window.innerWidth * 0.7)
         this.screenHeight = window.innerHeight
 
         this.positionToTimeSlot()
@@ -267,6 +271,8 @@ export default {
 
                 this.innerEvts = evts
                 this.ttEvtsDisplay = true
+
+                //console.log(this.innerEvts)
 
                 /*if(data.length == 0){
                     this.$message('No event for today.');
@@ -333,8 +339,8 @@ export default {
                 data = [val]
             }
 
-            this.detailOpen = true,
-            this.currentInfo = data,
+            this.detailOpen = true
+            this.currentInfo = data
             this.currentInfoIndex = 0
 
             this.tt_evts_detail.opa = 1
@@ -503,6 +509,7 @@ export default {
   height: 100%;
   z-index: 96;
   overflow: hidden;
+  left: 0px;
   top: 0px;
   opacity: 0;
   transition: all 0.42s cubic-bezier(.25,.8,.25,1);
@@ -536,6 +543,8 @@ export default {
 
 .tt-evts-single-name{
   margin: 4px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .tt-evts-single-uimg{
@@ -596,8 +605,14 @@ export default {
   background-color: #F90279;
 }
 
+.tt-evts-location{
+    position: absolute;
+    margin-top: 12px;
+}
+
 .tt-evts-detail{
   position: fixed;
+  left: 0px;
   bottom: -2000px;
   width: 100%;
   z-index: 97;

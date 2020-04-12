@@ -6,6 +6,7 @@ from APIs and response all data to a callback
 
 const axios = require('axios')
 const qs = require('qs')
+const ls = require('local-storage')
 
 const base_url = "https://playground.eca.ed.ac.uk/~s1929291/fatfree/FFF-SimpleExample"
 //const base_url = "https://uoedcal.isjeff.com"
@@ -78,8 +79,31 @@ function contParam (api, param) {
 
   return api
 }
+
+
+function updateTT(){
+
+    const postReady = {
+        u: ls.get("login_snum"),
+        p: ls.get("login_psw"),
+        t: "tweb",
+        r: Math.floor(1000+Math.random()*9000),
+        platform: "web",
+        language: "en"
+    }
+
+    post('/login', postReady, (res)=>{
+        this.loading = false
+        if(res.data.ttn){
+
+            ls.set('data_tt', res.data.tt)
+
+        }
+    })
+}
 module.exports = {
     hello:hello,
     post: post,
-    get: get
+    get: get,
+    updateTT: updateTT,
 }

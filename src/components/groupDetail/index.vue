@@ -37,7 +37,7 @@
                 </div>
 
                 <div id="group-timetable">
-                    <timetable :events="currentEvtArr"></timetable>
+                    <timetable :events="currentEvtArr" :hasMems="'t'"></timetable>
                 </div>
             </div>
 
@@ -105,14 +105,7 @@ export default {
         this.gcode = this.$route.query.code
         this.gopen = parseInt(this.$route.query.open) == 1 ? true : false
 
-        const cacheData = ls.get("data_gtt_" + this.gid)
-
-        if(cacheData){
-            this.allTTData = cacheData
-            this.renderDayEvt()
-        } else {
-            this.update()
-        }
+        this.update()
 
     },
 
@@ -138,6 +131,8 @@ export default {
             if (evtData.status) {
                 this.currentEvtArr = evtData.data
             }
+
+            console.log(evtData)
         },
 
         getEvt(sDate) {
@@ -146,19 +141,19 @@ export default {
             var tt = this.allTTData
 
             if (tt) {
-            // sometime is an arr, so get the 1st one(only one)
-            if (Array.isArray(sDate)) {
-                sDate = sDate[0]
-            }
+                // sometime is an arr, so get the 1st one(only one)
+                if (Array.isArray(sDate)) {
+                    sDate = sDate[0]
+                }
 
-            // combine query string
-            var tar = sDate.year + "-" + ifSingleAddZero(sDate.month) + "-" + sDate.day
+                // combine query string
+                var tar = sDate.year + "-" + ifSingleAddZero(sDate.month) + "-" + sDate.day
 
-            // excute matcher
-            var res = timeEvtMatcher(tar, tt)
+                // excute matcher
+                var res = timeEvtMatcher(tar, tt)
 
-            // Return
-            return { status: true, count: res.length, data: res }
+                // Return
+                return { status: true, count: res.length, data: res }
 
             } else {
                 // If no timetable data from storage, get new
@@ -177,7 +172,7 @@ export default {
             ]
 
             request.get('/memberTimetable', postReady, (res)=>{
-                this.allTTData = res.data
+                this.allTTData = res.data.data
                 ls.set("data_gtt_" + this.gid, res.data)
                 this.renderDayEvt()
             })
@@ -192,7 +187,7 @@ export default {
             this.$prompt('Copy Invite Link', 'Invitation', {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'CANCEL',
-                inputValue: encodeURI(base_url + '/~s1929291/teamwork/#/join/?code='+this.gcode+'&uname='+username+'&gid='+this.gid+'&gname='+this.gname),
+                inputValue: encodeURI(base_url + '/~s1888009/dwd/#/join/?code='+this.gcode+'&uname='+username+'&gid='+this.gid+'&gname='+this.gname),
             })
         },
 

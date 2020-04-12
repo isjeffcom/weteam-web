@@ -124,6 +124,7 @@ const ls = require('local-storage')
                     ls.set('login_token', res.data.token)
                     ls.set('login_snum', this.email)
                     ls.set('login_uuid', res.data.id)
+                    ls.set('login_psw', this.password)
                     ls.set('data_n', res.data.name)
                     ls.set('data_tt', res.data.tt)
 

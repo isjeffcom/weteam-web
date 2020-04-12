@@ -120,7 +120,6 @@ export default {
 
         getData(){
             this.allTTData = ls.get("data_tt")
-
             this.concatWeTeamCal(ls.get("login_uuid"))
         },
 
@@ -151,13 +150,9 @@ export default {
                 this.currentEvtArr = evtData.data
             }
 
-            // If data expired 
-            /*if (!this.hasUpdated && Math.abs(currentTs - ttLastUp) > expire) {
-
-                request.updateTT((res) => {
-                    this.hasUpdated = true
-                })
-            }*/
+            // update
+            request.updateTT()
+            
         },
 
         // Get calendar added from WeTeam(personal timetable), push it to the main tt data 
