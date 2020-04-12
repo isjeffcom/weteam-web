@@ -66,7 +66,8 @@
 
 <script>
 
-const request = require('../../request')
+import request from '../../request'
+//const request = require('../../request')
 
 import { EventBus } from '../../bus'
 

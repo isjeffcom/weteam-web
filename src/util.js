@@ -1,4 +1,6 @@
 
+import ls from 'local-storage'
+
 // Check all thing in object is filled, notice dont check !el as it could be false
 export function checkFilled(obj, exception){
     
@@ -18,4 +20,12 @@ export function checkFilled(obj, exception){
     }
 
     return true
+}
+
+export function logout(){
+    ls.remove('login_token')
+    ls.remove('login_snum')
+    ls.remove('login_uuid')
+    ls.remove('data_n')
+    ls.remove('data_tt')
 }

@@ -1,141 +1,145 @@
 <template>
-    <!--component/ncalendar/ncalendar.wxml-->
+
     <div class="calendar">
 
-    <div class="calendar-control" id="calendar-control" :style="'height:' + calendar_control_height + 'px;' + 'opacity:' + calendar_control_opacity + ';'">
+        <div class="calendar-control" id="calendar-control" :style="'height:' + calendar_control_height + 'px;' + 'opacity:' + calendar_control_opacity + ';'">
 
-        <div class="calendar-control-inner">
+            <div class="calendar-control-inner">
 
-            <div class="calendar-control-btn calendar-control-btn-left" v-on:click="lastMonth" :style="'top:' + control_top + 'px;'">
-                <img class="calendar-control-btn-image" src="./assets/left.svg">
-            </div>
+                <div class="calendar-control-btn calendar-control-btn-left" v-on:click="lastMonth" :style="'top:' + control_top + 'px;'">
+                    <img class="calendar-control-btn-image" src="./assets/left.svg">
+                </div>
 
-            <div class="calendar-control-center" :style="'opacity:' + control_center + ';'" >
-                <span>{{ thisTodayStr.year }}-{{ thisTodayStr.month }}</span>
-            </div>
+                <div class="calendar-control-center" :style="'opacity:' + control_center + ';'" >
+                    <span>{{ thisTodayStr.year }}-{{ thisTodayStr.month }}</span>
+                </div>
 
-            <div class="calendar-control-btn calendar-control-btn-right" v-on:click="nextMonth" :style="'top:' + control_top + 'px;'">
-                <img class="calendar-control-btn-image" src="./assets/right.svg">
-            </div>
-        
-        </div>
-    
-    </div>
-
-    <div class="calendar-week-indi" id="calendar-week-indi" :style="'margin-top:' + (currentView == 'month' ? '20' : '-6' + 'px')">
-        <div class="calendar-week-indi-inner" :style="'opacity:' + (currentView == 'month' ? '0.2' : '0.4')">
-
-            <div
-                class="calendar-week-indi-s"
-                v-for="(item, index) in weeksStr"
-                :key="index">
-                
-                <span>{{ item }}</span>
-
-            </div>
-        </div>
-        
-    </div>
-
-    <div class="calendar-cont" id="calendar-cont" :style="'height:' + calendar_cont_height + 'px;'">
-
-        <div class="calendar-inner" id="calendar-inner">
-
-            <!-- MONTH VIEW START -->
-            <div v-if="currentView == 'month'" class="calendar-inner-in">
-
-                <div 
-                class="calendar-all"
-                v-for="(item, index) in thisMonth"
-                :key="index"
-                :style="'opacity: ' + (item.isThisMonth ? '1' : '0.3')">
-
-                    <div 
-                        class="calendar-slot" 
-                        v-on:click="daySelected(item)"
-                        v-if="item.isThisMonth && item.d == currentSelected">
-                        
-                        <div class="calendar-slot-text">
-                            <span>{{ item.d }}</span>
-                        </div>
-
-                        <div class="calendar-slot-selected" :style="'background:' + selectedColor"></div>
-                    
-                    </div>
-
-                    <div 
-                        class="calendar-slot" 
-                        v-on:click="daySelected(item)" 
-                        v-else>
-
-                        <div>
-                            <span>{{ item.d }}</span>
-                        </div>
-                    </div>
-
+                <div class="calendar-control-btn calendar-control-btn-right" v-on:click="nextMonth" :style="'top:' + control_top + 'px;'">
+                    <img class="calendar-control-btn-image" src="./assets/right.svg">
                 </div>
             
-            
             </div>
-            <!-- MONTH VIEW END -->
+        
+        </div>
 
-            <!-- WEEK VIEW START -->
-            <swiper 
-                ref="weekSwiper"
-                v-if="currentView == 'week'"
-                class="calendar-week-swiper"
-                :options="swiperOption">
+        <div class="calendar-week-indi" id="calendar-week-indi" :style="'margin-top:' + (currentView == 'month' ? '20' : '-6' + 'px')" v-if="currentView == 'month'">
+            <div class="calendar-week-indi-inner" :style="'opacity:' + (currentView == 'month' ? '0.2' : '0.4')">
 
-                <swiper-slide
-                class="calendar-all-week"
-                id="calendar-all-week"
-                v-for="(item, idx) in thisMonthInWeek"
-                :key="idx">
+                <div
+                    class="calendar-week-indi-s"
+                    v-for="(item, index) in weeksStr"
+                    :key="index">
+                    
+                    <span>{{ item }}</span>
+
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="calendar-cont" id="calendar-cont" :style="'height:' + calendar_cont_height + 'px;'">
+
+            <div class="calendar-inner" id="calendar-inner">
+
+                <!-- MONTH VIEW START -->
+                <div v-if="currentView == 'month'" class="calendar-inner-in">
 
                     <div 
-                    class="calendar-week"
-                    v-for="(el, idxx) in item"
-                    :key="idxx"
-                    :style="'opacity:' + (el.isThisMonth ? '1' : '0.3')">
+                    class="calendar-all"
+                    v-for="(item, index) in thisMonth"
+                    :key="index"
+                    :style="'opacity: ' + (item.isThisMonth ? '1' : '0.3')">
 
                         <div 
-                        class="calendar-slot"
-                        v-on:click="daySelected(el)"
-                        v-if="el.isThisMonth && el.d == currentSelected">
-                    
+                            class="calendar-slot" 
+                            v-on:click="daySelected(item)"
+                            v-if="item.isThisMonth && item.d == currentSelected">
+                            
                             <div class="calendar-slot-text">
-                                <span>{{ el.d }}</span>
+                                <span>{{ item.d }}</span>
                             </div>
 
-                            <div class="calendar-slot-selected" :style="'background:' + selectedColor"></div>
-                            
+                            <div class="calendar-slot-selected" :style="'background:' + selectedColor + ';box-shadow:' + selectedShadow"></div>
+                        
                         </div>
 
                         <div 
                             class="calendar-slot" 
-                            v-on:click="daySelected(el)" 
+                            v-on:click="daySelected(item)" 
                             v-else>
 
                             <div>
-                                <span>{{ el.d }}</span>
+                                <span>{{ item.d }}</span>
                             </div>
                         </div>
 
                     </div>
+                
+                
+                </div>
+                <!-- MONTH VIEW END -->
 
-                </swiper-slide>
-            </swiper>
-            <!-- WEEK VIEW END -->
-        
+                <!-- WEEK VIEW START -->
+                <swiper 
+                    ref="weekSwiper"
+                    v-if="currentView == 'week'"
+                    class="calendar-week-swiper"
+                    :options="swiperOption">
+
+                    <swiper-slide
+                    class="calendar-all-week"
+                    id="calendar-all-week"
+                    v-for="(item, idx) in thisMonthInWeek"
+                    :key="idx">
+
+                        <div 
+                        class="calendar-week"
+                        v-for="(el, idxx) in item"
+                        :key="idxx"
+                        :style="'opacity:' + (el.isThisMonth ? '1' : '0.3')">
+
+                            <div 
+                            class="calendar-slot"
+                            v-on:click="daySelected(el)"
+                            v-if="el.isThisMonth && el.d == currentSelected">
+                        
+                                <div class="calendar-slot-text">
+                                    <span style="font-size: 22px;">{{ el.d }}</span>
+                                    <br>
+                                    <span style="font-size: 12px; font-weight:normal;">{{ weeksStr[idxx] }}</span>
+                                </div>
+
+                                <div class="calendar-slot-selected" :style="'background:' + selectedColor + ';box-shadow:' + selectedShadow"></div>
+                                
+                            </div>
+
+                            <div 
+                                class="calendar-slot" 
+                                v-on:click="daySelected(el)" 
+                                v-else>
+
+                                <div>
+                                    <span style="font-size: 22px;">{{ el.d }}</span>
+                                    <br>
+                                    <span style="font-size: 12px; font-weight:normal;">{{ weeksStr[idxx] }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </swiper-slide>
+                </swiper>
+                <!-- WEEK VIEW END -->
+            
+            </div>
+
         </div>
 
-    </div>
-
-    <div class="calendar-view-c-b">
-        <div class="calendar-view-c-btn" id="calendar-view-c-btn" v-on:click="btnChangeView">
-            <img class="calendar-view-c-btn-img" src="./assets/arrow.svg" :style="'transform: rotate(' + viewBtn_Angle + 'deg)'">
+        <div class="calendar-view-c-b">
+            <div class="calendar-view-c-btn" id="calendar-view-c-btn" v-on:click="btnChangeView">
+                <img class="calendar-view-c-btn-img" src="./assets/arrow.svg" :style="'transform: rotate(' + viewBtn_Angle + 'deg)'">
+            </div>
         </div>
-    </div>
 
     </div>
 
@@ -161,12 +165,16 @@ export default {
         selectedColor:{
             type: String,
             default: "#000000"
+        },
+        selectedShadow: {
+            type: String,
+            default: "0px 4px 16px rgba(122, 119, 199, 0.5);"
         }
     },
 
     data(){
         return{
-            weeksStr: ["M", "T", "W", "T", "F", "S", "S"],
+            weeksStr: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
             thisToday: Object,
             thisTodayStr: Object,
             currentSelected: Number,
@@ -441,7 +449,7 @@ export default {
 
         toViewAni(bol){
         
-            this.calendar_cont_height = bol ? 50 : 250
+            this.calendar_cont_height = bol ? 80 : 250
             this.calendar_control_height = bol ? 4 : 32
             this.control_top = bol ? 36 : 0
             this.control_center = bol ? 0 : 1
@@ -574,7 +582,9 @@ export default {
 /* component/ncalendar/ncalendar.wxss */
 
 .calendar{
-  width: 100%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
   background: #fafafa;
   border-top-left-radius:0px;
   border-top-right-radius:0px;
@@ -699,10 +709,10 @@ export default {
 
 .calendar-slot-selected{
     position: relative;
-    width: 40px;
-    height: 40px;
-    border-radius: 200px;
-    margin-top: -30px;
+    width: 51px;
+    height: 64px;
+    border-radius: 10px;
+    margin-top: -52px;
     margin-left: auto;
     margin-right: auto;
     z-index: -1;

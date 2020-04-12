@@ -42,7 +42,9 @@
             </div>
         </div>
 
-        
+        <div class="page-bg">
+            <img src="../../assets/bg_admin.png" width="100%">
+        </div>
         
 
     </div>

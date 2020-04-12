@@ -38,7 +38,7 @@ export default {
             current: 0,
             height: 0,
             unselectedColor: "#6B717D",
-            selectedColor: "#0277F9"
+            selectedColor: "#5756B3"
         }
     },
 
@@ -100,8 +100,8 @@ export default {
     height: 30px;
 }
 .sidebar-tab-s-icon img{
-    width: 100%;
-    height: 100%;
+    width: 30px;
+    height: 30px;
 }
 
 .sidebar-tab-s-text{

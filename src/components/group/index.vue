@@ -17,6 +17,10 @@
             </div>
         </div>
 
+        <div class="page-bg">
+            <img src="../../assets/bg_grouplist.png" width="100%">
+        </div>
+
     </div>
 </template>
 
@@ -84,6 +88,8 @@ export default {
 
 <style scoped>
 
+
+
 .single{
     margin-top: 20px;
     margin-bottom: 20px;
@@ -103,10 +109,12 @@ export default {
     font-size: 32px;
     font-weight: bold;
     text-align: left;
-    width: 95%;
+    width: 200px;
+    background: #5756B3;
+    color: #fff;
+    padding: 10px;
     margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 40px;
 }
 
 .group-list-single{

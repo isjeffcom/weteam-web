@@ -1,8 +1,6 @@
 <template>
   <div id="app">
 
-    
-
     <div id="main-cont">
 
       <div id="main-cont-left" v-if="hasSidebar">
@@ -103,6 +101,7 @@ export default {
 input{
   height: 30px;
   width: 100%;
+  font-size: 18px;
   appearance: none;
   border: none;
   border-bottom: 2px solid #888;
@@ -117,7 +116,7 @@ input:focus{
 }
 
 button{
-  background: #0277F9;
+  background: rgb(109, 107, 212);
   border-radius: 2px;
   width: 100%;
   height: 50px;
@@ -135,8 +134,15 @@ button{
 
 button:active{
   color: #ffffff;
-  background: #006FEA;
+  background: rgb(62, 61, 128);
   outline:none;
+}
+
+.inner{
+    width: 95%;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .dp-overwrite{
@@ -145,6 +151,14 @@ button:active{
   border: 1px solid #C2C2C2;
   background: #F2F2F2;
   border-radius: 2px;
+}
+
+.page-bg{
+    position: fixed;
+    top:0px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 #app {
@@ -166,9 +180,9 @@ button:active{
   width: 60px;
   bottom: 40px;
   right: 30px;
-  background: #0277F9;
+  background: #5756B3;
   color: #fff;
-  box-shadow: 0px 4px 8px rgba(2, 119, 249, 0.3);
+  box-shadow: 0px 2px 12px rgba(122, 119, 199, 0.5);
   border-radius: 100px;
   font-size: 24px;
   cursor: pointer;
@@ -176,8 +190,8 @@ button:active{
 }
 
 .floating-btn:hover{
-  background: #1B87FF;
-  box-shadow: 0px 12px 10px rgba(2, 119, 249, 0.8);
+  background: rgb(131, 129, 252);
+  box-shadow: 0px 6px 24px rgba(122, 119, 199, 0.5);
 }
 
 .floating-btn-inner{

@@ -17,7 +17,15 @@
                     class="task-list-state-tab" 
                     :style="'opacity:' + (idx == selectedState ? 1 : 0.4)"
                     v-on:click="switchState(idx)">
-                    {{ si.n }}
+
+                    <div class="task-list-state-tab-bg">
+                        <img src='../../assets/tasktab.svg' :alt="si.n">
+                    </div>
+
+                    <div class="task-list-state-tab-txt">
+                        <span>{{ si.n }}</span>
+                    </div>
+                    
                 </div>
 
                 <div class="task-list-states-inner">
@@ -296,7 +304,8 @@ export default {
 }
 
 .task-list{
-    width: 95%;
+    width: 100%;
+    height: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 40px;
@@ -306,6 +315,7 @@ export default {
 }
 
 .task-list-states{
+    
     transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
@@ -313,7 +323,9 @@ export default {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    border-right:1px solid rgba(0, 0, 0, 0.1)
+    padding: 40px;
+    border-right:1px solid rgba(0, 0, 0, 0.1);
+    background: #F4F3F9;
 }
 
 .task-list-s-done{
@@ -325,6 +337,16 @@ export default {
     margin-bottom:10px; 
     font-weight:bold; 
     cursor: pointer;
+}
+
+.task-list-state-tab-bg{
+    position: absolute;
+    margin-top: -12px;
+    z-index: -1;
+}
+
+.task-list-state-tab-txt{
+    margin-left: 50px;
 }
 
 .task-title{

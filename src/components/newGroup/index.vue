@@ -1,23 +1,24 @@
 <template>
     <div id="newGroup">
-        <div class="mainBody">
-            <p>ID: {{myid}}</p>
-            <p>New Group</p>
 
-        </div>
-        
-        <div class="new-group-detail">
-            <input id="groupName" type="text" v-model="groupName">
-        </div>
-
-        
-
-        <div id="login-inner">
-
-            <button v-on:click="add">Create</button>
+        <div class="inner">
+            <el-page-header @back="goBack" content="New Group"></el-page-header>
             
+            <div class="new-group-detail">
+                <input id="groupName" type="text" v-model="groupName" placeholder="Name">
+            </div>
+
+            <div id="new-group-add">
+                <button v-on:click="add">Create</button>
+            </div>
 
         </div>
+
+        <div class="page-bg">
+            <img src="../../assets/bg_newgroup.png" width="100%">
+        </div>
+
+        
 
     </div>
 </template>
@@ -92,7 +93,12 @@ export default {
     border-bottom: 1px solid rgba(0,0,0,0.5);
 }
 
-.group-list-single{
-    margin-bottom: 20px;
+.new-group-detail{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#new-group-add{
+    margin-top: 20px;
 }
 </style>

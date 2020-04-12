@@ -200,6 +200,12 @@ export default {
                 taskState: this.taskState
             }
 
+            if(!checkFilled(postReady, ["taskStart", "taskEnd"])){
+                alert("Please fill task description and/or select a group")
+                return
+            }
+
+
             request.post(this.api_edit, postReady, (res)=>{
                 if(res.status){
                     EventBus.$emit("task-added", true)

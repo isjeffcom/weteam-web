@@ -211,7 +211,9 @@ export default {
 }
 
 #group-info{
-    width: 100%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     height: 50px;
     background: #fafafa;
 }
@@ -251,8 +253,7 @@ export default {
 }
 
 #group-info-right{
-    position: absolute;
-    right: 30px;
+    margin-left: 130px;
     margin-top: 20px;
 }
 

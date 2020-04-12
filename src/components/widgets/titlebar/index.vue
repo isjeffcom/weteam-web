@@ -14,11 +14,17 @@
                 <img src="../../../assets/settings.svg" alt="settings" v-if="color == 'white'">
             </div>
 
-            <div id="titlebar-user">
+            <div id="titlebar-user" v-on:click="menu = !menu">
                 <div id="titlebar-avator">
                     <img src="../../../assets/default_avatar.png" alt="user avatar">
                 </div>
                 <!--el-button type="text" v-on:click="logout">Logout</el-button-->
+            </div>
+
+            <div id="titlebar-menu" v-if="menu">
+                <div id="titlebar-menu-s" v-on:click="signout">
+                    <span>Sign Out</span>
+                </div>
             </div>
         </div>
 
@@ -28,7 +34,8 @@
 
 <script>
 
-const util = require('../../../support/util')
+import util from '../../../support/util'
+
 export default {
     name: "titlebar",
     props:{
@@ -49,7 +56,7 @@ export default {
 
     data(){
         return{
-
+            menu: false,
         }
     },
 
@@ -58,7 +65,7 @@ export default {
     },
 
     methods:{
-        logout(){
+        signout(){
             util.logout()
             this.$router.push('login')
         }
@@ -86,6 +93,21 @@ export default {
     position: absolute;
     right: 100px;
     display: flex;
+}
+
+#titlebar-menu{
+    position: absolute;
+    width: 200px;
+    height: 20px;
+    padding: 22px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: bold;
+    top: 60px;
+    right: -40px;
+    background: rgba(255,255,255,1);
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+    cursor:pointer;
 }
 
 #titlebar-settings{

@@ -1,7 +1,7 @@
 <template>
     <div id="home">
         <div id="home-calendar">
-            <calendar initView="week" selectedColor="#0277F9" v-on:day="afterTapDay"></calendar>
+            <calendar initView="week" selectedColor="linear-gradient(38.77deg, #C3BCF1 0%, #5756B3 100%)" selectedShadow="0px 2px 12px rgba(122, 119, 199, 0.5)" v-on:day="afterTapDay"></calendar>
         </div>
 
         <div id="home-timetable">
@@ -28,9 +28,9 @@ import newEvt from '../newEvt'
 
 import { EventBus } from '../../bus'
 
-const ls = require('local-storage')
-const request = require('../../request')
-const util = require('../../support/util')
+import ls from 'local-storage'
+import request from '../../request'
+import util from '../../support/util'
 
 export default {
     name: "home",
@@ -117,16 +117,11 @@ export default {
         getData(){
             this.allTTData = ls.get("data_tt")
 
-            //this.renderDayEvt(this.selectedDate)
-            console.log(this.selectedDate)
-
             this.concatWeTeamCal(ls.get("login_uuid"))
         },
 
 
         renderDayEvt (date) {
-
-            console.log(date)
 
             var that = this
 
@@ -144,6 +139,9 @@ export default {
             }
             
             let evtData = this.getEvt(date)
+            if(evtData.count == 0){
+                this.$message('No event for today.');
+            }
 
             if (evtData.status){
                 this.currentEvtArr = evtData.data
@@ -168,8 +166,13 @@ export default {
             ]
 
             request.get(this.api_customCal, postReady, (res)=>{
-                // Save persona timetable
+                // Save personal timetable
+
                 let pTT = res.data.data
+
+                if(pTT == "no record"){
+                    return
+                }
 
                 // Add Unique Marker
                 for(let i=0;i<pTT.length;i++){
@@ -254,6 +257,6 @@ export default {
 
 <style scoped>
 #home-timetable{
-    height: 500px;
+    height: 600px;
 }
 </style>

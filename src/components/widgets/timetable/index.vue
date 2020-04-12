@@ -267,9 +267,9 @@ export default {
                 this.innerEvts = evts
                 this.ttEvtsDisplay = true
 
-                if(data.length == 0){
+                /*if(data.length == 0){
                     this.$message('No event for today.');
-                }
+                }*/
 
             } else {
                 
@@ -506,7 +506,9 @@ export default {
 <style scoped>
 
 #timetable{
-    width: 100%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     height: 100%;
 }
 
