@@ -170,6 +170,25 @@ button:active{
   color: #494E59;
 }
 
+progress[value]{
+    border: 0;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+progress[value]::-webkit-progress-bar{
+    background-color: #46545B;
+    height: 6px;
+    -webkit-appearance: none;
+    border-radius: 100px;
+}
+
+progress[value]::-webkit-progress-value{
+    border-radius: 100px;
+    background-color: #36FFAB;
+}
+
 .el-button{
   border-radius: 0px !important;
 }
@@ -204,6 +223,16 @@ button:active{
 .floating-btn-inner img{
   width: 25px;
   height: 25px;
+}
+
+.cal-cont{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(0,0,0,0.05);
+    background: #fff;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
 }
 
 #main-cont{

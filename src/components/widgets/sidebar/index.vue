@@ -72,8 +72,10 @@ export default {
     position: fixed;
     width: 10%;
     height: 100%;
+    min-width: 160px;
     user-select: none;
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.05);
+    background: #fff;
 }
 
 #sidebar-logo{

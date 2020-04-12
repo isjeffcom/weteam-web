@@ -1,12 +1,6 @@
 <template>
     <div id="titlebar" :style="'position:' + posi + ';'">
 
-        <!--div id="titlebar-left">
-            <div id="titlebar-logo">
-                <img src="../../../assets/logo.png" alt="">
-            </div>
-        </div-->
-
         <div id="titlebar-right">
 
             <div id="titlebar-settings">
@@ -14,16 +8,15 @@
                 <img src="../../../assets/settings.svg" alt="settings" v-if="color == 'white'">
             </div>
 
-            <div id="titlebar-user" v-on:click="menu = !menu">
-                <div id="titlebar-avator">
-                    <img src="../../../assets/default_avatar.png" alt="user avatar">
+            <div data-id="tu" id="titlebar-user" v-on:click="menu = !menu">
+                <div data-id="tu" id="titlebar-avator">
+                    <img data-id="tu" src="../../../assets/default_avatar.png" alt="user avatar">
                 </div>
-                <!--el-button type="text" v-on:click="logout">Logout</el-button-->
             </div>
 
-            <div id="titlebar-menu" v-if="menu">
-                <div id="titlebar-menu-s" v-on:click="signout">
-                    <span>Sign Out</span>
+            <div data-id="tu" id="titlebar-menu" v-if="menu">
+                <div data-id="tu" id="titlebar-menu-s" v-on:click="signout">
+                    <span data-id="tu">Sign Out</span>
                 </div>
             </div>
         </div>
@@ -60,13 +53,21 @@ export default {
         }
     },
 
-    created(){
-
+    mounted(){
+        addEventListener("click", (e)=>{
+            if(e.target.dataset.id != "tu"){
+                this.menu = false
+            }
+            
+        })
     },
 
     methods:{
         signout(){
+            // Call global sign out function
             logout()
+
+            // Router to url
             this.$router.push('login')
         }
     }

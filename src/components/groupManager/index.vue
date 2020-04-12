@@ -38,7 +38,7 @@
 
             <div class="group-m-submit" v-if="isAdm">
                 <el-button style="background: #0277F9; color: #ffffff; font-weight: bold; border: none;" v-on:click="save">SAVE</el-button>
-                <el-button style="background: #F24C4C; color: #ffffff; font-weight: bold; border: none;">DELETE</el-button>
+                <el-button style="background: #F24C4C; color: #ffffff; font-weight: bold; border: none; margin-left:0px; margin-top: 10px;">DELETE</el-button>
             </div>
         </div>
 

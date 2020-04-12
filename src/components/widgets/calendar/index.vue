@@ -582,10 +582,10 @@ export default {
 /* component/ncalendar/ncalendar.wxss */
 
 .calendar{
-  width: 80%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
-  background: #fafafa;
+  background: #F8F9FC;
   border-top-left-radius:0px;
   border-top-right-radius:0px;
   border-bottom-right-radius:10px;

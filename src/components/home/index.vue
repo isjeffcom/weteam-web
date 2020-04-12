@@ -1,12 +1,16 @@
 <template>
     <div id="home">
-        <div id="home-calendar">
-            <calendar initView="week" selectedColor="linear-gradient(38.77deg, #C3BCF1 0%, #5756B3 100%)" selectedShadow="0px 2px 12px rgba(122, 119, 199, 0.5)" v-on:day="afterTapDay"></calendar>
+
+        <div class="cal-cont">
+            <div id="home-calendar">
+                <calendar initView="week" selectedColor="linear-gradient(38.77deg, #C3BCF1 0%, #5756B3 100%)" selectedShadow="0px 2px 12px rgba(122, 119, 199, 0.5)" v-on:day="afterTapDay"></calendar>
+            </div>
+
+            <div id="home-timetable">
+                <timetable :events="currentEvtArr"></timetable>
+            </div>
         </div>
 
-        <div id="home-timetable">
-            <timetable :events="currentEvtArr"></timetable>
-        </div>
 
         <div id="add-calendar" class="floating-btn" v-on:click="newEvt = true">
             <div class="floating-btn-inner">

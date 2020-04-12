@@ -33,7 +33,7 @@
                         v-for="(evt, evtIdx) in item.child "
                         v-on:click="openDetail(evt)"
                         :key="evtIdx"
-                        :style="'top: ' + evt.size.top + 'px; height:' + evt.size.height + 'px; width: calc(80%/' + item.child.length + '); left: ' + (evtIdx * ((screenWidth / item.child.length + 1) - 40)) + 'px; background: ' + (hMems ? setColor(evt.uuid) : setColor())">
+                        :style="'top: ' + evt.size.top + 'px; height:' + evt.size.height + 'px; width: calc(80%/' + item.child.length + '); left: ' + (evtIdx * ((screenWidth / item.child.length + 1) - 40)) + 'px; background: ' + (hMems ? setColor(evt.uuid, 'bg') : setColor())  + ';border-top: 4px solid ' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid, 'border') : setColor(0, 'border'))">
 
                         <!-- Event Time Slot -->
                         <!--div class="tt-evts-single-time">
@@ -41,7 +41,7 @@
                         </div-->
 
                             <!-- Event Name -->
-                            <div class="tt-evts-single-name">
+                            <div class="tt-evts-single-name" :style="'color:' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid, 'border') : setColor(0, 'border'))">
                                 <span v-if="evt.hide">**</span>
                                 <span> {{ setName(evt.name, evt.size.height)}} </span>
                                 <span v-if="evt.hide">**</span>
@@ -100,9 +100,9 @@
         <div class="tt-evts-detail" id="tt-evts-detail" v-if="detailOpen" :style="'opacity:' + tt_evts_detail.opa + ';bottom:' + tt_evts_detail.bottom + 'px;transfrom: scale' + tt_evts_detail.scale + ';'">
 
             
-            <div class="tt-evts-detail-inner" id="tt-evts-detail-inner">
+            <div class="tt-evts-detail-inner" id="tt-evts-detail-inner" :style="'color:' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid, 'border') : setColor(0, 'border'))">
                 <!-- Detail Popup Title Area for Name and BG -->
-                <div class="tt-evts-detail-title" :style="'background: ' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid) : setColor())">
+                <div class="tt-evts-detail-title" :style="'background: ' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid, 'bg') : setColor()) + ';border-top: 4px solid ' + (hMems ? setColor(currentInfo[currentInfoIndex].uuid, 'border') : setColor(0, 'border'))">
                     <!-- Person who attend this event with avatar and name -->
                     <div class="tt-evts-detail-title-user tt-evt-switch-ani" :style="'display: flex; opacity:' + tt_evt_switch.opa + ';'" v-if="hMems">
                         <div class="avatar" v-if="currentInfo.length > 0">
@@ -120,7 +120,7 @@
                     <span class="tt-evts-detail-c-s">Start: {{currentInfo[currentInfoIndex].start}}</span> <br>
                     <span class="tt-evts-detail-c-s">End: {{currentInfo[currentInfoIndex].end}}</span> <br>
                     <span class="tt-evts-detail-c-s">Location: {{currentInfo[currentInfoIndex].location}}</span> <br>
-                    <span v-if="currentInfo[currentInfoIndex].hide" style="opacity: 0.5;font-size: 14px;">用户开启隐私保护，不显示名称地点</span>
+                    <span v-if="currentInfo[currentInfoIndex].hide" style="opacity: 0.5;font-size: 14px;">Privacy mode enabled, information will not shown</span>
                 </div>
 
                 <button v-if="currentInfo[currentInfoIndex].isCustom" v-on:click="toEdit(currentInfo[currentInfoIndex])">EDIT</button>
@@ -163,6 +163,7 @@
 
 <script>
 import { EventBus } from '../../../bus'
+import { sColor } from './color'
 
 const timeProcessing = require('../../../support/time')
 
@@ -428,31 +429,8 @@ export default {
         },
 
         // Color related functions
-        setColor(index) {
-
-            if(!index){
-                index = 0
-            }
-
-            const colors = [
-                'rgba(2, 119, 249, 1)',
-                'rgba(96, 59, 244, 1)',
-                'rgba(255, 122, 0, 1)',
-                'rgba(8, 201, 85, 1)',
-                'rgba(122, 59, 295, 1)',
-                'rgba(255, 94, 84, 1)',
-                'rgba(241, 193 , 69, 1)'
-            ]
-
-            if(!index){
-                return colors[0]
-            }
-
-            if(index > colors.length){
-                index = index % colors.length
-            }
-
-            return colors[index];
+        setColor(index, mode) {
+            return sColor(index, mode)
         },
 
         getEvtsColor() {
@@ -506,7 +484,7 @@ export default {
 <style scoped>
 
 #timetable{
-    width: 80%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     height: 100%;
@@ -600,7 +578,7 @@ export default {
 }
 
 .tt-evts-single-slot:hover{
-    border: 4px solid rgba(0,0,0,0.3);
+    border: 3px solid rgba(0,0,0,0.05);
 }
 
 .tt-evts-current-text{
@@ -646,7 +624,6 @@ export default {
   height: 240px;
   font-size: 24px;
   font-weight: bold;
-  color: #ffffff;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
   border-bottom-right-radius: 0px;

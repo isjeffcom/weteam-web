@@ -17,9 +17,7 @@
                     </div>
         
                     <div class="contactway">   
-                        <span>s </span> 
-                        <el-input style="width: 300px;" v-model="email" type="number" placeholder="Student Number"></el-input>
-                        <span> @ed.ac.uk</span>
+                        <el-input style="width: 410px;" v-model="email" type="text" placeholder="Unversity Email"></el-input>
                     
                     </div>
                     
@@ -46,9 +44,7 @@
                     <div class="terms">
                         <span>By using this service, you agree to abide by the University's 
                             computing regulations and you understand how the University uses your personal information.</span>
-        
 
-                
                     </div>
                     
                 </div>

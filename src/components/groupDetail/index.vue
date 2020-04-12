@@ -7,7 +7,7 @@
 
                     <div id="group-info-left">
                         <div id="group-info-avatar">
-                            <img src="../../assets/i_group_c.svg" alt="group management button">
+                            <img src="../../assets/i_group_c.png" width="38px" alt="group management button">
                         </div>
 
                         <div id="group-info-name">
@@ -31,13 +31,17 @@
                 </div>
             </div>
 
-            <div id="group-calendar">
-                <calendar initView="week" selectedColor="linear-gradient(38.77deg, #C3BCF1 0%, #5756B3 100%)" v-on:day="afterTapDay"></calendar>
+            <div class="cal-cont">
+                <div id="group-calendar">
+                    <calendar initView="week" selectedColor="linear-gradient(38.77deg, #C3BCF1 0%, #5756B3 100%)" v-on:day="afterTapDay"></calendar>
+                </div>
+
+                <div id="group-timetable">
+                    <timetable :events="currentEvtArr"></timetable>
+                </div>
             </div>
 
-            <div id="group-timetable">
-                <timetable :events="currentEvtArr"></timetable>
-            </div>
+            
         </div>
 
         <div id="group-tasks" v-if="current == 1">
@@ -183,16 +187,13 @@ export default {
             const base_url = window.location.origin
             const uuid = ls.get("login_uuid")
             const username = ls.get("data_n")
+
             // HARD FIX ATTENTION
             this.$prompt('Copy Invite Link', 'Invitation', {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'CANCEL',
-                inputValue: base_url + '/~s1929291/teamwork/#/join/?code='+this.gcode+'&uname='+username+'&gid='+this.gid+'&gname='+this.gname,
-            }).then(({ value }) => {
-
-            }).catch(() => {
-              
-            });
+                inputValue: encodeURI(base_url + '/~s1929291/teamwork/#/join/?code='+this.gcode+'&uname='+username+'&gid='+this.gid+'&gname='+this.gname),
+            })
         },
 
         toGroupManage(){
@@ -215,8 +216,13 @@ export default {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-    height: 50px;
+    margin-bottom: 20px;
+    height: 80px;
     background: #fafafa;
+    border: 1px solid rgba(0,0,0,0.05);
+    background: #fff;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
 }
 
 #group-info-inner{
@@ -254,16 +260,17 @@ export default {
 }
 
 #group-info-right{
-    margin-left: 130px;
-    margin-top: 20px;
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 22px;
 }
 
 #group-info-invite{
     width: 80px;
     height: 24px;
     background: #fafafa;
-    border: 2px solid #0277F9;
-    color: #0277F9;
+    border: 2px solid #5756B3;
+    color: #5756B3;
     font-weight: bold;
     text-align: center;
     padding-top: 7px;
@@ -273,7 +280,7 @@ export default {
 }
 
 #group-info-invite:hover{
-    background: #0277F9;
+    background: #5756B3;
     color: #ffffff;
 }
 
