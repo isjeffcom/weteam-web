@@ -37,8 +37,8 @@
             </div>
 
             <div class="group-m-submit" v-if="isAdm">
-                <el-button style="background: #0277F9; color: #ffffff; font-weight: bold; border: none;" v-on:click="save">SAVE</el-button>
-                <el-button style="background: #F24C4C; color: #ffffff; font-weight: bold; border: none; margin-left:0px; margin-top: 10px;">DELETE</el-button>
+                <el-button style="background: #0277F9; color: #ffffff; font-weight: bold; border: none;" v-on:click="save">SAVE</el-button> <br>
+                <el-button style="background: #F24C4C; color: #ffffff; font-weight: bold; border: none; margin-left:0px; margin-top: 10px;" v-on:click="del()">DELETE</el-button>
             </div>
         </div>
 
@@ -123,16 +123,37 @@ export default {
         goBack(){
             this.$router.go(-1);
         },
-        allow(){
-            const postReady = 
-                {
-                    userid: this.myid,
-                    gid: this.gid,
-                    //groupName: this.groupName
-                }
-            request.post('/groupManager', postReady, (res)=>{
-                console.log(res)
-            })
+
+        del(){
+            let that = this
+            const postReady = {
+                uuid: this.myid,
+                gid: this.gid
+            }
+
+            this.$confirm('Delete entire group, are you sure?', 'Alert', {
+
+                confirmButtonText: 'CONFIRM',
+                cancelButtonText: 'CANCEL',
+                type: 'warning'
+
+            }).then(() => {
+
+                request.post('/groupManagerDeleteGroup', postReady, (res)=>{
+                    
+                    if(res.data.status){
+                        that.$router.push("group")
+                    } else {
+                        that.$message('Unknown Error.');
+                    }
+                })
+
+
+            }).catch(() => {
+                // Do nothing
+            });
+
+            
         },
 
         deleteMb(nameId){
