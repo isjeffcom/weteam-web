@@ -19,7 +19,12 @@
                 </div>
 
                 <div class="popup-s">
-                    <datepicker format="yyyy-MM-dd" v-model="evtDate" input-class="dp-overwrite" placeholder="Select a date"></datepicker>
+                    <!--datepicker format="yyyy-MM-dd" v-model="evtDate" input-class="dp-overwrite" placeholder="Select a date"></datepicker-->
+                    <el-date-picker
+                        v-model="evtDate"
+                        type="date"
+                        placeholder="Pick a day">
+                    </el-date-picker>
                 </div>
 
                 <div class="popup-s popup-flex">
@@ -43,7 +48,7 @@
                 </div>
 
                 <div class="popup-submit">
-                    <button v-on:click="up()">SUBMIT</button>
+                    <el-button v-on:click="up()">SUBMIT</el-button>
                 </div>
                 
             </div>
@@ -59,7 +64,7 @@ import { EventBus } from '../../bus'
 
 import { checkFilled } from '../../support/util'
 
-import Datepicker from 'vuejs-datepicker'
+//import Datepicker from 'vuejs-datepicker'
 
 const request = require('../../request')
 const ls = require('local-storage')
@@ -68,7 +73,7 @@ export default {
     
     name: "newtask",
     components:{
-        Datepicker
+        //Datepicker
     },
 
     props:{

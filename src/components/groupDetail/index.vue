@@ -132,7 +132,6 @@ export default {
                 this.currentEvtArr = evtData.data
             }
 
-            console.log(evtData)
         },
 
         getEvt(sDate) {

@@ -147,6 +147,7 @@ const ls = require('local-storage')
 
     #logina-cont{
         width: 100%;
+        margin-top: 240px;
         display: flex;
     }
 
@@ -157,8 +158,6 @@ const ls = require('local-storage')
     }
 
     #login-img-img{
-        margin-top: 160px;
-        margin-left: 150px;
     }
 
     #login-inner{
@@ -172,7 +171,7 @@ const ls = require('local-storage')
 
 
     .login-title{
-        margin-top:110px;
+
         margin-bottom:40px;
         font-size: 30px;
         font-weight:bold;
@@ -181,7 +180,6 @@ const ls = require('local-storage')
     .contactway{
         font-size: 18px;
         font-weight:bold;
-        margin-top:40px;
     }
 
     .contactway span{
@@ -192,7 +190,6 @@ const ls = require('local-storage')
         font-size: 40px;
         font-weight:bold;
         margin-bottom:30px;
-        margin-top:40px;
       
     }
     .button{

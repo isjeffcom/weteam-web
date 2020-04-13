@@ -1,6 +1,9 @@
 <template>
     <div id="home">
-
+        <div class="ctitle">
+            <h2>My Calendar</h2>
+        </div>
+        
         <div class="cal-cont">
             <div id="home-calendar">
                 <calendar initView="week" selectedColor="linear-gradient(38.77deg, #C3BCF1 0%, #5756B3 100%)" selectedShadow="0px 2px 12px rgba(122, 119, 199, 0.5)" v-on:day="afterTapDay"></calendar>

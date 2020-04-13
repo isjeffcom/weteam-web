@@ -11,9 +11,20 @@
                 </div>
 
                 <div class="popup-s popup-select" v-if="mode == 'new'">
-                    <select v-model="setGid" :disabled="gid != 'null'">
+                    <!--select v-model="setGid" :disabled="gid != 'null'">
                         <option v-for="item in allGroups" :key="item.id" :value="item.id">{{ item.name }}</option>
-                    </select>
+                    </select-->
+
+                     <el-select v-model="setGid" placeholder="Select an group">
+                        <el-option
+                        v-for="item in allGroups"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                        :disabled="gid != 'null'">
+                        
+                        </el-option>
+                    </el-select>
                 </div>
 
                 <div class="popup-s popup-input">
@@ -50,8 +61,8 @@
                 </div>
 
                 <div class="popup-submit">
-                    <button v-on:click="mode == 'new' ? addNew() : editTask()">SUBMIT</button>
-                    <button v-on:click="deleteTask()" v-if="mode == 'edit'" style="background:#F24C4C;">DELETE</button>
+                    <el-button v-on:click="mode == 'new' ? addNew() : editTask()">SUBMIT</el-button>
+                    <el-button v-on:click="deleteTask()" v-if="mode == 'edit'" type="danger">DELETE</el-button>
                 </div>
                 
             </div>

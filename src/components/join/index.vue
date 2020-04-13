@@ -120,8 +120,8 @@ export default {
 
     #join-inner{
         width: 100%;
-        text-align: center
-       
+        text-align: center;
+        position: absolute;
     }
     
     .join-invitor-name{

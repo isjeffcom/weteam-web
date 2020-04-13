@@ -126,8 +126,12 @@
                     <span v-if="currentInfo[currentInfoIndex].hide" style="opacity: 0.5;font-size: 14px;">Privacy mode enabled, information will not shown</span>
                 </div>
 
-                <button v-if="currentInfo[currentInfoIndex].isCustom" v-on:click="toEdit(currentInfo[currentInfoIndex])">EDIT</button>
-                <button v-if="currentInfo[currentInfoIndex].isCustom" v-on:click="toDel(currentInfo[currentInfoIndex])" style="background:#F24C4C;">DELETE</button>
+                <div class="tt-evts-detail-content" v-if="currentInfo[currentInfoIndex].isCustom">
+                    <el-button  v-on:click="toEdit(currentInfo[currentInfoIndex])">EDIT</el-button>
+                    <el-button v-on:click="toDel(currentInfo[currentInfoIndex])" type="danger">DELETE</el-button>
+                </div>
+
+                
 
             </div>
 
@@ -245,7 +249,6 @@ export default {
 
 
         this.hMems = this.hasMems == "f" ? false : true
-        console.log(this.hMems)
         this.screenWidth = (window.innerWidth * 0.7)
         this.screenHeight = window.innerHeight
 

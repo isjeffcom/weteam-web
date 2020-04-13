@@ -1,6 +1,10 @@
 <template>
     <div id="titlebar" :style="'position:' + posi + ';'" v-if="tbShow">
 
+        <div id="titlebar-logo" v-if="logoShow">
+            <img src="../../../assets/logo.png" alt="logo">
+        </div>
+
         <div id="titlebar-right">
 
             <div id="titlebar-settings">
@@ -8,7 +12,7 @@
                 <img src="../../../assets/settings.svg" alt="settings" v-if="color == 'white'">
             </div>
 
-            <div data-id="tu" id="titlebar-user" v-on:click="menu = !menu">
+            <div data-id="tu" id="titlebar-user" v-on:click="menu = !menu" v-if="userShow">
                 <div data-id="tu" id="titlebar-avator">
                     <img data-id="tu" src="../../../assets/default_avatar.png" alt="user avatar">
                 </div>
@@ -47,25 +51,34 @@ export default {
             default: "center"
         }
     },
+    
 
     data(){
         return{
             menu: false,
+            userShow: true,
             tbShow: true,
+            logoShow: false
+        }
+    },
+
+    watch:{
+        $route: function(to, from) {
+            this.displayPolicy(this.$route.name)
+            
         }
     },
 
     mounted(){
+
+        this.displayPolicy(this.$route.name)
+
         addEventListener("click", (e)=>{
             if(e.target.dataset.id != "tu"){
                 this.menu = false
             }
             
         })
-
-        if(!ls.get('login_snum')){
-            this.tbShow = false
-        }
     },
 
     methods:{
@@ -75,6 +88,25 @@ export default {
 
             // Router to url
             this.$router.push('login')
+        },
+
+        displayPolicy(n){
+
+            if(n == "login"){
+                this.tbShow = false
+                this.logoShow = true
+            } 
+
+            else if(n == "join"){
+                this.userShow = false
+                this.logoShow = true
+            }
+            
+            else {
+                this.tbShow = true
+                this.userShow = true
+                this.logoShow = false
+            }
         }
     }
 }
@@ -89,8 +121,18 @@ export default {
     display: flex;
 }
 
+#titlebar-logo{
+    position: fixed;
+    top: 30px;
+    left: 0px;
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #titlebar-logo img{
-    width: 120px;
+    width: 160px;
 }
 #titlebar-left{
     margin-top: 6px;

@@ -47,9 +47,7 @@
         </div>
 
         <div class="button">
-            <el-button type="primary" style="font-size:20px;font-weight:bolder;background:#0277F9; border:none;width:230px;height:60px;">FINISH
-
-            </el-button>
+            <el-button type="primary" style="font-size:20px;font-weight:bolder;background:#0277F9; border:none;width:230px;height:60px;">FINISH</el-button>
 
         </div>
      </div>

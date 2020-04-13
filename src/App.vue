@@ -79,11 +79,21 @@ export default {
   created(){
     //Global Router
     var that = this
+
+    // Receive event from sidebar when sidebar item clicked
     EventBus.$on("sidebar", function(data){
+
+      // Get name
+      let tn = that.tabs[data].routerName
+
+      // ignore action if is the same
+      if(that.$router.currentRoute.name != tn){
+        that.$router.push(tn)
+      }
       
-      that.$router.push(that.tabs[data].routerName)
     })
 
+    // If show sidebar
     EventBus.$on("showSidebar", function(data){
       that.hasSidebar = data
     })
@@ -113,29 +123,6 @@ input{
 input:focus{
   outline: none;
   border-bottom: 2px solid #000;
-}
-
-button{
-  background: rgb(109, 107, 212);
-  border-radius: 2px;
-  width: 100%;
-  height: 50px;
-  color: #ffffff;
-  padding: 14px;
-  appearance: none;
-  font-size: 16px;
-  font-weight: bold;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  outline:none;
-  border: none;
-  cursor: pointer;
-}
-
-button:active{
-  color: #ffffff;
-  background: rgb(62, 61, 128);
-  outline:none;
 }
 
 .inner{
@@ -191,6 +178,14 @@ progress[value]::-webkit-progress-value{
 
 .el-button{
   border-radius: 0px !important;
+}
+
+.ctitle{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .floating-btn{

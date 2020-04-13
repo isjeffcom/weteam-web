@@ -9,7 +9,7 @@
             </div>
 
             <div id="new-group-add">
-                <button v-on:click="add">Create</button>
+                <el-button v-on:click="add">Create</el-button>
             </div>
 
         </div>
@@ -80,6 +80,10 @@ export default {
             }
 
             
+        },
+
+        goBack(){
+            this.$router.go(-1);
         },
     }
 }

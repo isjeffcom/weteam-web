@@ -58,8 +58,9 @@ export default {
 
     },
     methods:{
-
+        // When sidebar item cliked 
         clicked(idx){
+
             this.current = idx
             EventBus.$emit("sidebar", idx)
         }
